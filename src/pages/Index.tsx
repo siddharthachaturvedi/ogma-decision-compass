@@ -8,14 +8,20 @@ import MemoryKeeper from '@/components/MemoryKeeper';
 import SocialPersonalizer from '@/components/SocialPersonalizer';
 import MeetingIntelligence from '@/components/MeetingIntelligence';
 import AIChat from '@/components/AIChat';
+import UnifiedDashboard from '@/components/UnifiedDashboard';
 import OnboardingModal from '@/components/OnboardingModal';
+import AmbientBackground from '@/components/AmbientBackground';
+import { useEmotionalColor } from '@/hooks/useEmotionalColor';
 
 const Index = () => {
-  const [activeView, setActiveView] = useState('chat');
+  const [activeView, setActiveView] = useState('hub');
   const [showOnboarding, setShowOnboarding] = useState(true);
+  const { emotion } = useEmotionalColor(activeView);
 
   const renderActiveView = () => {
     switch (activeView) {
+      case 'hub':
+        return <UnifiedDashboard onNavigate={setActiveView} />;
       case 'chat':
         return <AIChat onNavigate={setActiveView} />;
       case 'inbox':
@@ -31,20 +37,22 @@ const Index = () => {
       case 'memory':
         return <MemoryKeeper />;
       default:
-        return <AIChat onNavigate={setActiveView} />;
+        return <UnifiedDashboard onNavigate={setActiveView} />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
-      <Sidebar activeView={activeView} setActiveView={setActiveView} />
-      <main className="flex-1 overflow-hidden">
-        {renderActiveView()}
-      </main>
-      {showOnboarding && (
-        <OnboardingModal onClose={() => setShowOnboarding(false)} />
-      )}
-    </div>
+    <AmbientBackground emotion={emotion}>
+      <div className="min-h-screen flex">
+        <Sidebar activeView={activeView} setActiveView={setActiveView} />
+        <main className="flex-1 overflow-hidden">
+          {renderActiveView()}
+        </main>
+        {showOnboarding && (
+          <OnboardingModal onClose={() => setShowOnboarding(false)} />
+        )}
+      </div>
+    </AmbientBackground>
   );
 };
 

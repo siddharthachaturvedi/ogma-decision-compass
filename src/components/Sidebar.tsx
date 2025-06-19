@@ -1,75 +1,75 @@
-
 import React from 'react';
-import { Button } from '@/components/ui/button';
 import { 
-  Sparkles,
-  Inbox, 
+  Brain, 
+  MessageCircle, 
+  Mail, 
   FileText, 
-  MessageSquare, 
-  Clock,
-  Share2,
-  Mic,
-  Settings,
-  User
+  PenTool, 
+  Share2, 
+  Users, 
+  Clock 
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
-const Sidebar = ({ activeView, setActiveView }) => {
+interface SidebarProps {
+  activeView: string;
+  setActiveView: (view: string) => void;
+}
+
+const Sidebar = ({ activeView, setActiveView }: SidebarProps) => {
   const menuItems = [
-    { id: 'chat', label: 'AI Assistant', icon: Sparkles },
-    { id: 'inbox', label: 'Smart Inbox', icon: Inbox },
-    { id: 'digest', label: 'Doc Digest', icon: FileText },
-    { id: 'tone', label: 'ToneAware', icon: MessageSquare },
-    { id: 'social', label: 'Social Personalizer', icon: Share2 },
-    { id: 'meeting', label: 'Meeting Intelligence', icon: Mic },
-    { id: 'memory', label: 'Memory Keeper', icon: Clock },
+    { id: 'hub', label: 'Intelligence Hub', icon: Brain, color: 'text-purple-600' },
+    { id: 'chat', label: 'AI Assistant', icon: MessageCircle, color: 'text-blue-600' },
+    { id: 'inbox', label: 'Smart Inbox', icon: Mail, color: 'text-green-600' },
+    { id: 'digest', label: 'Doc Digest', icon: FileText, color: 'text-orange-600' },
+    { id: 'tone', label: 'ToneAware', icon: PenTool, color: 'text-purple-600' },
+    { id: 'social', label: 'Social Personalizer', icon: Share2, color: 'text-pink-600' },
+    { id: 'meeting', label: 'Meeting Intelligence', icon: Users, color: 'text-indigo-600' },
+    { id: 'memory', label: 'Memory Keeper', icon: Clock, color: 'text-teal-600' },
   ];
 
   return (
-    <div className="w-64 bg-slate-900 text-white h-screen flex flex-col">
-      <div className="p-6">
-        <h1 className="text-2xl font-bold text-white">Ogma</h1>
-        <p className="text-slate-400 text-sm">AI Executive Assistant</p>
+    <aside className="w-64 bg-slate-50 border-r border-slate-200 h-screen py-8 px-3 flex flex-col">
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
+          Acme Intelligence
+        </h2>
+        <p className="text-sm text-slate-500 mt-1">
+          Your AI-powered unified workspace
+        </p>
       </div>
-      
-      <nav className="flex-1 px-4">
-        <div className="space-y-2">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <Button
-                key={item.id}
-                variant={activeView === item.id ? "secondary" : "ghost"}
-                className={`w-full justify-start text-left ${
-                  activeView === item.id 
-                    ? 'bg-slate-700 text-white' 
-                    : 'text-slate-300 hover:text-white hover:bg-slate-800'
-                }`}
-                onClick={() => setActiveView(item.id)}
-              >
-                <Icon size={18} className="mr-3" />
-                {item.label}
-              </Button>
-            );
-          })}
-        </div>
+
+      <nav className="flex-1 space-y-1">
+        {menuItems.map((item) => (
+          <Button
+            key={item.id}
+            variant={activeView === item.id ? "secondary" : "ghost"}
+            className="w-full justify-start font-medium"
+            onClick={() => setActiveView(item.id)}
+          >
+            <item.icon className="mr-2 h-4 w-4" style={{ color: item.color }} />
+            {item.label}
+          </Button>
+        ))}
       </nav>
 
-      <div className="p-4 border-t border-slate-700">
-        <div className="flex items-center space-x-3 mb-4">
-          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-            <User size={16} />
-          </div>
-          <div>
-            <p className="text-sm font-medium">Executive User</p>
-            <p className="text-xs text-slate-400">Premium Plan</p>
-          </div>
-        </div>
-        <Button variant="ghost" className="w-full justify-start text-slate-300 hover:text-white">
-          <Settings size={16} className="mr-3" />
-          Settings
+      <div className="mt-8">
+        <p className="text-xs text-slate-400 uppercase font-medium">
+          Account
+        </p>
+        <Button variant="ghost" className="w-full justify-start mt-2">
+          <img
+            src="https://avatars.dicebear.com/api/open-peeps/example.svg"
+            alt="Avatar"
+            className="mr-2 h-6 w-6 rounded-full"
+          />
+          John Doe
+        </Button>
+        <Button variant="outline" className="w-full justify-center mt-2">
+          Logout
         </Button>
       </div>
-    </div>
+    </aside>
   );
 };
 
