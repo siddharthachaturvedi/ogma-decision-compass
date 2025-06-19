@@ -1,80 +1,71 @@
 
 import React from 'react';
-import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import { 
-  Mail, 
+  Inbox, 
   FileText, 
   MessageSquare, 
-  Clock, 
-  BarChart3,
+  Clock,
+  Share2,
+  Mic,
   Settings,
-  Crown
+  User
 } from 'lucide-react';
 
-interface SidebarProps {
-  activeView: string;
-  setActiveView: (view: string) => void;
-}
-
-const Sidebar = ({ activeView, setActiveView }: SidebarProps) => {
+const Sidebar = ({ activeView, setActiveView }) => {
   const menuItems = [
-    { id: 'inbox', label: 'Smart Inbox', icon: Mail },
+    { id: 'inbox', label: 'Smart Inbox', icon: Inbox },
     { id: 'digest', label: 'Doc Digest', icon: FileText },
     { id: 'tone', label: 'ToneAware', icon: MessageSquare },
+    { id: 'social', label: 'Social Personalizer', icon: Share2 },
+    { id: 'meeting', label: 'Meeting Intelligence', icon: Mic },
     { id: 'memory', label: 'Memory Keeper', icon: Clock },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
   ];
 
   return (
-    <div className="w-64 bg-slate-900 text-white flex flex-col">
-      {/* Logo */}
-      <div className="p-6 border-b border-slate-700">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-          Ogma
-        </h1>
-        <p className="text-slate-400 text-sm mt-1">AI Executive Assistant</p>
+    <div className="w-64 bg-slate-900 text-white h-screen flex flex-col">
+      <div className="p-6">
+        <h1 className="text-2xl font-bold text-white">Ogma</h1>
+        <p className="text-slate-400 text-sm">AI Executive Assistant</p>
       </div>
-
-      {/* Menu Items */}
-      <nav className="flex-1 p-4 space-y-2">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <button
-              key={item.id}
-              onClick={() => setActiveView(item.id)}
-              className={cn(
-                "w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200",
-                activeView === item.id
-                  ? "bg-blue-600 text-white shadow-lg"
-                  : "text-slate-300 hover:bg-slate-800 hover:text-white"
-              )}
-            >
-              <Icon size={20} />
-              <span className="font-medium">{item.label}</span>
-            </button>
-          );
-        })}
+      
+      <nav className="flex-1 px-4">
+        <div className="space-y-2">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Button
+                key={item.id}
+                variant={activeView === item.id ? "secondary" : "ghost"}
+                className={`w-full justify-start text-left ${
+                  activeView === item.id 
+                    ? 'bg-slate-700 text-white' 
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                }`}
+                onClick={() => setActiveView(item.id)}
+              >
+                <Icon size={18} className="mr-3" />
+                {item.label}
+              </Button>
+            );
+          })}
+        </div>
       </nav>
 
-      {/* Upgrade Section */}
       <div className="p-4 border-t border-slate-700">
-        <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg p-4 text-center">
-          <Crown className="mx-auto mb-2 text-white" size={24} />
-          <h3 className="font-semibold text-white text-sm">Upgrade to Pro</h3>
-          <p className="text-xs text-white/80 mt-1">Unlock advanced features</p>
-          <button className="mt-3 w-full bg-white text-orange-600 rounded-md px-3 py-2 text-sm font-medium hover:bg-slate-100 transition-colors">
-            Upgrade Now
-          </button>
+        <div className="flex items-center space-x-3 mb-4">
+          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+            <User size={16} />
+          </div>
+          <div>
+            <p className="text-sm font-medium">Executive User</p>
+            <p className="text-xs text-slate-400">Premium Plan</p>
+          </div>
         </div>
-      </div>
-
-      {/* Settings */}
-      <div className="p-4">
-        <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
-          <Settings size={20} />
-          <span className="font-medium">Settings</span>
-        </button>
+        <Button variant="ghost" className="w-full justify-start text-slate-300 hover:text-white">
+          <Settings size={16} className="mr-3" />
+          Settings
+        </Button>
       </div>
     </div>
   );
