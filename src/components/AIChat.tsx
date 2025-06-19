@@ -16,6 +16,9 @@ import {
   Calendar
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import KineticText from '@/components/KineticText';
+import ThinkingIndicator from '@/components/ThinkingIndicator';
+import { useEmotionalColor, EmotionType } from '@/hooks/useEmotionalColor';
 
 interface ChatMessage {
   id: string;
@@ -56,6 +59,8 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const [currentEmotion, setCurrentEmotion] = useState<EmotionType>('neutral');
+  const { colors, isTransitioning } = useEmotionalColor(currentEmotion);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -68,10 +73,10 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
   const detectIntent = (message: string): AIIntentResult => {
     const lowerMessage = message.toLowerCase();
     
-    // Social media intent
     if (lowerMessage.includes('post') || lowerMessage.includes('social') || 
         lowerMessage.includes('linkedin') || lowerMessage.includes('twitter') ||
         lowerMessage.includes('instagram') || lowerMessage.includes('share')) {
+      setCurrentEmotion('creative');
       return {
         intent: 'social_media',
         confidence: 0.9,
@@ -83,9 +88,9 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
       };
     }
 
-    // Meeting intent
     if (lowerMessage.includes('meeting') || lowerMessage.includes('notes') || 
         lowerMessage.includes('record') || lowerMessage.includes('transcript')) {
+      setCurrentEmotion('focused');
       return {
         intent: 'meeting',
         confidence: 0.85,
@@ -97,9 +102,9 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
       };
     }
 
-    // Document intent
     if (lowerMessage.includes('document') || lowerMessage.includes('analyze') || 
         lowerMessage.includes('summary') || lowerMessage.includes('digest')) {
+      setCurrentEmotion('analytical');
       return {
         intent: 'document',
         confidence: 0.8,
@@ -111,9 +116,9 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
       };
     }
 
-    // Email/Communication intent
     if (lowerMessage.includes('email') || lowerMessage.includes('tone') || 
         lowerMessage.includes('communication') || lowerMessage.includes('draft')) {
+      setCurrentEmotion('social');
       return {
         intent: 'communication',
         confidence: 0.8,
@@ -125,9 +130,9 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
       };
     }
 
-    // Memory/Search intent
     if (lowerMessage.includes('remember') || lowerMessage.includes('find') || 
         lowerMessage.includes('search') || lowerMessage.includes('history')) {
+      setCurrentEmotion('calm');
       return {
         intent: 'memory',
         confidence: 0.9,
@@ -139,7 +144,7 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
       };
     }
 
-    // General/Chat intent
+    setCurrentEmotion('energetic');
     return {
       intent: 'general',
       confidence: 0.6,
@@ -271,15 +276,35 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
     }
   };
 
+  const getEmotionalMessageStyle = (type: 'user' | 'ai', emotion: EmotionType) => {
+    const baseStyle = type === 'user' 
+      ? 'bg-blue-600 text-white' 
+      : 'text-slate-900';
+    
+    if (type === 'ai') {
+      return `${baseStyle} transition-all duration-500 ease-in-out`;
+    }
+    return baseStyle;
+  };
+
   return (
     <div className="p-6 max-w-4xl mx-auto h-full flex flex-col">
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-3xl font-bold text-slate-900 flex items-center space-x-2">
-            <Sparkles className="text-blue-600" />
-            <span>AI Assistant</span>
+            <div 
+              className="animate-pulse-glow transition-colors duration-500"
+              style={{ color: colors.primary }}
+            >
+              <Sparkles />
+            </div>
+            <KineticText variant="title" emotion={currentEmotion}>
+              AI Assistant
+            </KineticText>
           </h1>
-          <p className="text-slate-600">Conversational AI that understands context and learns from your patterns</p>
+          <KineticText variant="body" emotion={currentEmotion} className="text-slate-600">
+            Conversational AI that understands context and learns from your patterns
+          </KineticText>
         </div>
       </div>
 
@@ -287,8 +312,15 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
       <Card className="flex-1 flex flex-col mb-4">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
-            <MessageCircle size={20} />
-            <span>Conversation</span>
+            <div 
+              className="transition-colors duration-500"
+              style={{ color: colors.primary }}
+            >
+              <MessageCircle size={20} />
+            </div>
+            <KineticText variant="subtitle" emotion={currentEmotion}>
+              Conversation
+            </KineticText>
           </CardTitle>
         </CardHeader>
         <CardContent className="flex-1 flex flex-col">
@@ -296,24 +328,41 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'} animate-message-appear`}
               >
                 <div
-                  className={`max-w-[80%] rounded-lg p-3 ${
-                    message.type === 'user'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-slate-100 text-slate-900'
+                  className={`max-w-[80%] rounded-lg p-3 transition-all duration-300 ${
+                    getEmotionalMessageStyle(message.type, currentEmotion)
                   }`}
+                  style={message.type === 'ai' ? {
+                    background: `linear-gradient(135deg, ${colors.secondary}, ${colors.accent}20)`,
+                    borderLeft: `3px solid ${colors.primary}`,
+                    boxShadow: `0 2px 8px ${colors.glow}`
+                  } : {}}
                 >
                   {message.type === 'ai' && message.intent && (
                     <div className="flex items-center space-x-2 mb-2">
-                      {getIntentIcon(message.intent)}
-                      <Badge variant="outline" className="text-xs">
+                      <div style={{ color: colors.primary }}>
+                        {getIntentIcon(message.intent)}
+                      </div>
+                      <Badge 
+                        variant="outline" 
+                        className="text-xs transition-colors duration-300"
+                        style={{ 
+                          borderColor: colors.primary,
+                          color: colors.primary
+                        }}
+                      >
                         {message.intent.replace('_', ' ')}
                       </Badge>
                     </div>
                   )}
-                  <p className="text-sm">{message.content}</p>
+                  <KineticText 
+                    emotion={currentEmotion}
+                    className={message.type === 'user' ? 'text-white' : ''}
+                  >
+                    {message.content}
+                  </KineticText>
                   {message.actions && message.actions.length > 0 && (
                     <div className="mt-3 flex flex-wrap gap-2">
                       {message.actions.map((action, idx) => (
@@ -321,7 +370,11 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
                           key={idx}
                           size="sm"
                           variant="outline"
-                          className="text-xs"
+                          className="text-xs transition-all duration-300 hover:scale-105"
+                          style={{
+                            borderColor: colors.primary,
+                            color: colors.primary
+                          }}
                           onClick={() => handleAction(action.action, action.data)}
                         >
                           {action.label}
@@ -337,12 +390,7 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
             ))}
             {isProcessing && (
               <div className="flex justify-start">
-                <div className="bg-slate-100 rounded-lg p-3">
-                  <div className="flex items-center space-x-2">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
-                    <span className="text-sm text-slate-600">Thinking...</span>
-                  </div>
-                </div>
+                <ThinkingIndicator emotion={currentEmotion} />
               </div>
             )}
             <div ref={messagesEndRef} />
@@ -354,6 +402,7 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
               variant={isRecording ? "destructive" : "outline"}
               size="sm"
               onClick={toggleRecording}
+              className={`transition-all duration-300 ${isRecording ? 'animate-pulse' : 'hover:scale-110'}`}
             >
               {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
             </Button>
@@ -362,9 +411,21 @@ const AIChat = ({ onNavigate }: { onNavigate: (view: string) => void }) => {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-              className="flex-1"
+              className="flex-1 transition-all duration-300 focus:scale-[1.02] focus:shadow-lg"
+              style={{
+                borderColor: colors.primary,
+                boxShadow: inputValue ? `0 0 0 1px ${colors.glow}` : undefined
+              }}
             />
-            <Button onClick={handleSendMessage} disabled={!inputValue.trim()}>
+            <Button 
+              onClick={handleSendMessage} 
+              disabled={!inputValue.trim()}
+              className="transition-all duration-300 hover:scale-110 disabled:scale-100"
+              style={{
+                backgroundColor: colors.primary,
+                borderColor: colors.primary
+              }}
+            >
               <Send size={16} />
             </Button>
           </div>
