@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
 import { 
   MessageSquare, 
   Wand2, 
@@ -14,7 +14,8 @@ import {
   Sparkles,
   Users,
   TrendingUp,
-  Calendar
+  Calendar,
+  CheckCircle
 } from 'lucide-react';
 
 type PlatformPosts = {
@@ -30,6 +31,7 @@ const SocialPersonalizer = () => {
   const [voiceProfile, setVoiceProfile] = useState('');
   const [processing, setProcessing] = useState(false);
   const [selectedPlatforms, setSelectedPlatforms] = useState(['linkedin', 'twitter']);
+  const { toast } = useToast();
 
   const platforms = [
     { 
@@ -72,12 +74,50 @@ const SocialPersonalizer = () => {
 
   const sampleCopy = "Excited to announce our Q4 results! Revenue grew 45% YoY, driven by our new AI capabilities. Our team's dedication and innovation continue to set us apart in the market. Looking forward to 2024 opportunities!";
 
+  const copyToClipboard = async (text: string, platform: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({
+        title: "Copied to clipboard!",
+        description: `${platform} post copied successfully.`,
+      });
+    } catch (err) {
+      toast({
+        title: "Copy failed",
+        description: "Please try selecting and copying manually.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const sharePost = (platform: string) => {
+    const urls = {
+      linkedin: 'https://www.linkedin.com/sharing/share-offsite/',
+      twitter: 'https://twitter.com/intent/tweet',
+      instagram: 'https://www.instagram.com/',
+      threads: 'https://www.threads.net/'
+    };
+    
+    window.open(urls[platform as keyof typeof urls], '_blank');
+    toast({
+      title: "Opening " + platform,
+      description: "Redirecting to post composer...",
+    });
+  };
+
   const personalizePosts = () => {
-    if (!marketingCopy) return;
+    if (!marketingCopy) {
+      toast({
+        title: "Missing content",
+        description: "Please add marketing copy to personalize.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     setProcessing(true);
     
-    // Simulate AI processing
+    // Enhanced AI processing simulation
     setTimeout(() => {
       const results: PlatformPosts = {};
       
@@ -124,6 +164,11 @@ Growth is great. Growing together is everything.`;
       
       setPersonalizedPosts(results);
       setProcessing(false);
+      
+      toast({
+        title: "Posts personalized!",
+        description: `Created ${selectedPlatforms.length} platform-specific posts.`,
+      });
     }, 2000);
   };
 
@@ -233,7 +278,7 @@ Growth is great. Growing together is everything.`;
             <div className="space-y-4">
               {selectedPlatforms.map(platformId => {
                 const platform = platforms.find(p => p.id === platformId);
-                const post = personalizedPosts[platformId];
+                const post = personalizedPosts[platformId as keyof PlatformPosts];
                 const Icon = platform?.icon;
                 
                 if (!post) return null;
@@ -248,11 +293,19 @@ Growth is great. Growing together is everything.`;
                           <Badge variant="outline">{post.length} chars</Badge>
                         </div>
                         <div className="flex space-x-2">
-                          <Button size="sm" variant="outline">
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => copyToClipboard(post, platform?.name || '')}
+                          >
                             <Copy size={16} className="mr-2" />
                             Copy
                           </Button>
-                          <Button size="sm" className={platform?.color}>
+                          <Button 
+                            size="sm" 
+                            className={platform?.color}
+                            onClick={() => sharePost(platformId)}
+                          >
                             <Share2 size={16} className="mr-2" />
                             Post
                           </Button>

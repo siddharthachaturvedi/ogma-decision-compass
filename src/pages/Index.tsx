@@ -5,6 +5,8 @@ import SmartInbox from '@/components/SmartInbox';
 import DocDigest from '@/components/DocDigest';
 import ToneAware from '@/components/ToneAware';
 import MemoryKeeper from '@/components/MemoryKeeper';
+import SocialPersonalizer from '@/components/SocialPersonalizer';
+import MeetingIntelligence from '@/components/MeetingIntelligence';
 import OnboardingModal from '@/components/OnboardingModal';
 
 const Index = () => {
@@ -19,6 +21,10 @@ const Index = () => {
         return <DocDigest />;
       case 'tone':
         return <ToneAware />;
+      case 'social':
+        return <SocialPersonalizer />;
+      case 'meeting':
+        return <MeetingIntelligence />;
       case 'memory':
         return <MemoryKeeper />;
       default:

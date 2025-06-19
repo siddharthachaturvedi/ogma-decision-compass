@@ -1,8 +1,8 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
 import { 
   Mic, 
   MicOff, 
@@ -14,12 +14,62 @@ import {
   Zap,
   Eye,
   Target,
-  MessageCircle
+  MessageCircle,
+  Play,
+  Pause,
+  Square
 } from 'lucide-react';
 
 const MeetingIntelligence = () => {
   const [isRecording, setIsRecording] = useState(false);
-  const [meetingData, setMeetingData] = useState(null);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const [liveInsights, setLiveInsights] = useState({
+    voicesDetected: 1,
+    decisionsPending: 0,
+    engagementScore: 85,
+    speakingBalance: 'Good'
+  });
+  const { toast } = useToast();
+
+  // Recording timer effect
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isRecording) {
+      interval = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+        // Simulate live data changes
+        setLiveInsights(prev => ({
+          ...prev,
+          voicesDetected: Math.min(4, Math.floor(prev.voicesDetected + Math.random() * 0.3)),
+          decisionsPending: Math.floor(Math.random() * 5),
+          engagementScore: Math.max(60, Math.min(95, prev.engagementScore + (Math.random() - 0.5) * 10))
+        }));
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isRecording]);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const toggleRecording = () => {
+    if (!isRecording) {
+      setRecordingTime(0);
+      toast({
+        title: "Recording started",
+        description: "Meeting intelligence is now active.",
+      });
+    } else {
+      toast({
+        title: "Recording stopped",
+        description: `Session saved (${formatTime(recordingTime)}).`,
+      });
+    }
+    setIsRecording(!isRecording);
+  };
 
   const mockMeetingData = {
     duration: '47 min',
@@ -94,10 +144,10 @@ const MeetingIntelligence = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-slate-900">Meeting Intelligence</h1>
         <Button 
-          onClick={() => setIsRecording(!isRecording)}
+          onClick={toggleRecording}
           className={isRecording ? 'bg-red-600 hover:bg-red-700' : 'bg-blue-600 hover:bg-blue-700'}
         >
-          {isRecording ? <MicOff size={16} className="mr-2" /> : <Mic size={16} className="mr-2" />}
+          {isRecording ? <Square size={16} className="mr-2" /> : <Mic size={16} className="mr-2" />}
           {isRecording ? 'Stop Recording' : 'Start Recording'}
         </Button>
       </div>
@@ -111,9 +161,9 @@ const MeetingIntelligence = () => {
                 <span className="font-medium text-red-800">Recording in progress...</span>
               </div>
               <div className="flex space-x-4 text-sm text-red-700">
-                <span>⏱️ 12:34</span>
-                <span>👥 4 voices detected</span>
-                <span>🎯 3 decisions pending</span>
+                <span>⏱️ {formatTime(recordingTime)}</span>
+                <span>👥 {liveInsights.voicesDetected} voices detected</span>
+                <span>🎯 {liveInsights.decisionsPending} decisions pending</span>
               </div>
             </div>
           </CardContent>
@@ -164,7 +214,7 @@ const MeetingIntelligence = () => {
                           <span className="text-sm w-20">{person}</span>
                           <div className="flex-1 bg-slate-200 rounded-full h-2">
                             <div 
-                              className="bg-blue-600 h-2 rounded-full" 
+                              className="bg-blue-600 h-2 rounded-full transition-all duration-300" 
                               style={{ width: `${percentage}%` }}
                             ></div>
                           </div>
@@ -235,15 +285,21 @@ const MeetingIntelligence = () => {
             <CardContent className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-sm text-slate-600">Engagement Score</span>
-                <Badge className="bg-green-100 text-green-800">High</Badge>
+                <Badge className={
+                  liveInsights.engagementScore > 80 ? "bg-green-100 text-green-800" :
+                  liveInsights.engagementScore > 60 ? "bg-yellow-100 text-yellow-800" :
+                  "bg-red-100 text-red-800"
+                }>
+                  {Math.round(liveInsights.engagementScore)}%
+                </Badge>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-slate-600">Decision Progress</span>
                 <Badge variant="outline">3/5 Made</Badge>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-600">Time Efficiency</span>
-                <Badge className="bg-yellow-100 text-yellow-800">85%</Badge>
+                <span className="text-sm text-slate-600">Speaking Balance</span>
+                <Badge className="bg-yellow-100 text-yellow-800">{liveInsights.speakingBalance}</Badge>
               </div>
             </CardContent>
           </Card>
@@ -274,21 +330,21 @@ const MeetingIntelligence = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <div className="flex justify-between items-center p-2 hover:bg-slate-50 rounded">
+                <div className="flex justify-between items-center p-2 hover:bg-slate-50 rounded cursor-pointer">
                   <div>
                     <p className="text-sm font-medium">Q4 Planning</p>
                     <p className="text-xs text-slate-500">Yesterday, 2:00 PM</p>
                   </div>
                   <Badge>92%</Badge>
                 </div>
-                <div className="flex justify-between items-center p-2 hover:bg-slate-50 rounded">
+                <div className="flex justify-between items-center p-2 hover:bg-slate-50 rounded cursor-pointer">
                   <div>
                     <p className="text-sm font-medium">Team Standup</p>
                     <p className="text-xs text-slate-500">2 days ago, 9:00 AM</p>
                   </div>
                   <Badge variant="secondary">78%</Badge>
                 </div>
-                <div className="flex justify-between items-center p-2 hover:bg-slate-50 rounded">
+                <div className="flex justify-between items-center p-2 hover:bg-slate-50 rounded cursor-pointer">
                   <div>
                     <p className="text-sm font-medium">Board Review</p>
                     <p className="text-xs text-slate-500">1 week ago, 3:00 PM</p>
