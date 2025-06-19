@@ -17,9 +17,16 @@ import {
   Calendar
 } from 'lucide-react';
 
+type PlatformPosts = {
+  linkedin?: string;
+  twitter?: string;
+  instagram?: string;
+  threads?: string;
+};
+
 const SocialPersonalizer = () => {
   const [marketingCopy, setMarketingCopy] = useState('');
-  const [personalizedPosts, setPersonalizedPosts] = useState({});
+  const [personalizedPosts, setPersonalizedPosts] = useState<PlatformPosts>({});
   const [voiceProfile, setVoiceProfile] = useState('');
   const [processing, setProcessing] = useState(false);
   const [selectedPlatforms, setSelectedPlatforms] = useState(['linkedin', 'twitter']);
@@ -72,7 +79,7 @@ const SocialPersonalizer = () => {
     
     // Simulate AI processing
     setTimeout(() => {
-      const results = {};
+      const results: PlatformPosts = {};
       
       if (selectedPlatforms.includes('linkedin')) {
         results.linkedin = `${marketingCopy.replace('Excited to announce', 'I\'m proud to share')} 
