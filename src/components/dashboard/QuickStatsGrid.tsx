@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Brain, Clock, Lightbulb, Target } from 'lucide-react';
-import { ContextItem, IntelligenceInsight } from '@/hooks/useContextEngine';
+import { ContextItem, IntelligenceInsight } from '@/types/context';
 
 interface QuickStatsGridProps {
   contexts: ContextItem[];

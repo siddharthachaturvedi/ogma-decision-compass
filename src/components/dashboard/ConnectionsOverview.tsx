@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar, MessageSquare, FileText, Users, Clock, Lightbulb, Brain } from 'lucide-react';
-import { ContextItem } from '@/hooks/useContextEngine';
+import { ContextItem } from '@/types/context';
 
 interface ConnectionsOverviewProps {
   contexts: ContextItem[];
