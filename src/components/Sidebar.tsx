@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { 
+  Sparkles,
   Inbox, 
   FileText, 
   MessageSquare, 
@@ -14,6 +15,7 @@ import {
 
 const Sidebar = ({ activeView, setActiveView }) => {
   const menuItems = [
+    { id: 'chat', label: 'AI Assistant', icon: Sparkles },
     { id: 'inbox', label: 'Smart Inbox', icon: Inbox },
     { id: 'digest', label: 'Doc Digest', icon: FileText },
     { id: 'tone', label: 'ToneAware', icon: MessageSquare },

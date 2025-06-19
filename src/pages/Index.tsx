@@ -7,14 +7,17 @@ import ToneAware from '@/components/ToneAware';
 import MemoryKeeper from '@/components/MemoryKeeper';
 import SocialPersonalizer from '@/components/SocialPersonalizer';
 import MeetingIntelligence from '@/components/MeetingIntelligence';
+import AIChat from '@/components/AIChat';
 import OnboardingModal from '@/components/OnboardingModal';
 
 const Index = () => {
-  const [activeView, setActiveView] = useState('inbox');
+  const [activeView, setActiveView] = useState('chat');
   const [showOnboarding, setShowOnboarding] = useState(true);
 
   const renderActiveView = () => {
     switch (activeView) {
+      case 'chat':
+        return <AIChat onNavigate={setActiveView} />;
       case 'inbox':
         return <SmartInbox />;
       case 'digest':
@@ -28,7 +31,7 @@ const Index = () => {
       case 'memory':
         return <MemoryKeeper />;
       default:
-        return <SmartInbox />;
+        return <AIChat onNavigate={setActiveView} />;
     }
   };
 
