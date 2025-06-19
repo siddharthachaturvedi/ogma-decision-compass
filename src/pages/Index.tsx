@@ -1,12 +1,40 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import Sidebar from '@/components/Sidebar';
+import SmartInbox from '@/components/SmartInbox';
+import DocDigest from '@/components/DocDigest';
+import ToneAware from '@/components/ToneAware';
+import MemoryKeeper from '@/components/MemoryKeeper';
+import OnboardingModal from '@/components/OnboardingModal';
 
 const Index = () => {
+  const [activeView, setActiveView] = useState('inbox');
+  const [showOnboarding, setShowOnboarding] = useState(true);
+
+  const renderActiveView = () => {
+    switch (activeView) {
+      case 'inbox':
+        return <SmartInbox />;
+      case 'digest':
+        return <DocDigest />;
+      case 'tone':
+        return <ToneAware />;
+      case 'memory':
+        return <MemoryKeeper />;
+      default:
+        return <SmartInbox />;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-slate-50 flex">
+      <Sidebar activeView={activeView} setActiveView={setActiveView} />
+      <main className="flex-1 overflow-hidden">
+        {renderActiveView()}
+      </main>
+      {showOnboarding && (
+        <OnboardingModal onClose={() => setShowOnboarding(false)} />
+      )}
     </div>
   );
 };
