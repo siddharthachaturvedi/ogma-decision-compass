@@ -55,19 +55,24 @@ const Sidebar = ({ activeView, setActiveView, onLogout }: SidebarProps) => {
       </nav>
 
       <div className="mt-8">
-        <p className="text-xs text-slate-400 uppercase font-medium">
-          Account
+        <p className="text-xs text-muted-foreground uppercase font-medium mb-3">
+          Neural Profile
         </p>
-        <Button variant="ghost" className="w-full justify-start mt-2">
-          <img
-            src="https://avatars.dicebear.com/api/open-peeps/example.svg"
-            alt="Avatar"
-            className="mr-2 h-6 w-6 rounded-full"
-          />
-          John Doe
+        <Button variant="ghost" className="w-full justify-start mb-2 group">
+          <div className="mr-3 h-8 w-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center animate-neural-pulse">
+            <span className="text-xs font-bold text-primary-foreground">JD</span>
+          </div>
+          <div className="text-left">
+            <div className="text-sm font-medium">John Doe</div>
+            <div className="text-xs text-muted-foreground">@company.com</div>
+          </div>
         </Button>
-        <Button variant="outline" className="w-full justify-center mt-2" onClick={onLogout}>
-          Logout
+        <Button 
+          variant="outline" 
+          className="w-full justify-center border-primary/30 hover:bg-primary/10" 
+          onClick={onLogout}
+        >
+          Disconnect
         </Button>
       </div>
     </aside>

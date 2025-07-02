@@ -7,6 +7,7 @@ import QuickStatsGrid from '@/components/dashboard/QuickStatsGrid';
 import InsightCard from '@/components/dashboard/InsightCard';
 import ContextCard from '@/components/dashboard/ContextCard';
 import ConnectionsOverview from '@/components/dashboard/ConnectionsOverview';
+import DomainCollaboration from '@/components/dashboard/DomainCollaboration';
 
 interface UnifiedDashboardProps {
   onNavigate: (view: string) => void;
@@ -25,10 +26,11 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ onNavigate }) => {
       <QuickStatsGrid contexts={contexts} insights={insights} />
 
       <Tabs defaultValue="insights" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="insights">AI Insights</TabsTrigger>
-          <TabsTrigger value="contexts">Active Contexts</TabsTrigger>
-          <TabsTrigger value="connections">Cross-Module Connections</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 bg-card/50 border border-primary/20">
+          <TabsTrigger value="insights" className="data-[state=active]:bg-primary/20">AI Insights</TabsTrigger>
+          <TabsTrigger value="contexts" className="data-[state=active]:bg-primary/20">Active Contexts</TabsTrigger>
+          <TabsTrigger value="collaboration" className="data-[state=active]:bg-primary/20">Domain Network</TabsTrigger>
+          <TabsTrigger value="connections" className="data-[state=active]:bg-primary/20">Neural Connections</TabsTrigger>
         </TabsList>
 
         <TabsContent value="insights" className="space-y-4">
@@ -54,6 +56,10 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ onNavigate }) => {
               />
             ))}
           </div>
+        </TabsContent>
+
+        <TabsContent value="collaboration" className="space-y-4">
+          <DomainCollaboration />
         </TabsContent>
 
         <TabsContent value="connections" className="space-y-4">
