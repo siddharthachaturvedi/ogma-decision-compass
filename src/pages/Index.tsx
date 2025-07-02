@@ -13,7 +13,11 @@ import OnboardingModal from '@/components/OnboardingModal';
 import AmbientBackground from '@/components/AmbientBackground';
 import { useEmotionalColor } from '@/hooks/useEmotionalColor';
 
-const Index = () => {
+interface IndexProps {
+  onLogout: () => void;
+}
+
+const Index: React.FC<IndexProps> = ({ onLogout }) => {
   const [activeView, setActiveView] = useState('hub');
   const [showOnboarding, setShowOnboarding] = useState(true);
   const { emotion } = useEmotionalColor(activeView);
@@ -44,7 +48,7 @@ const Index = () => {
   return (
     <AmbientBackground emotion={emotion}>
       <div className="min-h-screen flex">
-        <Sidebar activeView={activeView} setActiveView={setActiveView} />
+        <Sidebar activeView={activeView} setActiveView={setActiveView} onLogout={onLogout} />
         <main className="flex-1 overflow-hidden">
           {renderActiveView()}
         </main>

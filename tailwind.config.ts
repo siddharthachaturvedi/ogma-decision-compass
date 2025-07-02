@@ -96,14 +96,51 @@ export default {
 						height: '0'
 					}
 				},
+				// Post-agentic animations
+				'neural-pulse': {
+					'0%, 100%': { 
+						boxShadow: '0 0 0 0 hsl(var(--neural-primary) / 0.7)',
+						transform: 'scale(1)'
+					},
+					'50%': { 
+						boxShadow: '0 0 0 10px hsl(var(--neural-primary) / 0)',
+						transform: 'scale(1.02)'
+					}
+				},
+				'ambient-float': {
+					'0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+					'50%': { transform: 'translateY(-10px) rotate(1deg)' }
+				},
+				'wisdom-flow': {
+					'0%': { opacity: '0', transform: 'translateX(-50px)' },
+					'50%': { opacity: '1' },
+					'100%': { opacity: '0', transform: 'translateX(50px)' }
+				},
+				'predictive-emerge': {
+					'0%': { 
+						opacity: '0', 
+						transform: 'scale(0.8) translateY(20px)',
+						filter: 'blur(4px)'
+					},
+					'100%': { 
+						opacity: '1', 
+						transform: 'scale(1) translateY(0)',
+						filter: 'blur(0px)'
+					}
+				},
+				'context-awareness': {
+					'0%': { backgroundColor: 'transparent' },
+					'50%': { backgroundColor: 'hsl(var(--neural-primary) / 0.1)' },
+					'100%': { backgroundColor: 'transparent' }
+				},
 				// Emotional animations
 				'breathe': {
 					'0%, 100%': { transform: 'scale(1)', opacity: '0.8' },
 					'50%': { transform: 'scale(1.05)', opacity: '1' }
 				},
 				'pulse-glow': {
-					'0%, 100%': { boxShadow: '0 0 5px rgba(99, 102, 241, 0.5)' },
-					'50%': { boxShadow: '0 0 20px rgba(99, 102, 241, 0.8)' }
+					'0%, 100%': { boxShadow: '0 0 5px hsl(var(--neural-primary) / 0.5)' },
+					'50%': { boxShadow: '0 0 20px hsl(var(--neural-primary) / 0.8)' }
 				},
 				'thought-bubble': {
 					'0%': { transform: 'scale(0.8)', opacity: '0' },
@@ -133,6 +170,13 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
+				// Post-agentic animations
+				'neural-pulse': 'neural-pulse 2s ease-in-out infinite',
+				'ambient-float': 'ambient-float 6s ease-in-out infinite',
+				'wisdom-flow': 'wisdom-flow 3s ease-in-out infinite',
+				'predictive-emerge': 'predictive-emerge 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
+				'context-awareness': 'context-awareness 2s ease-in-out infinite',
+				// Emotional animations
 				'breathe': 'breathe 3s ease-in-out infinite',
 				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
 				'thought-bubble': 'thought-bubble 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',

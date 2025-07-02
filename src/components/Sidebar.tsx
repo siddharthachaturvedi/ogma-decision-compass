@@ -14,28 +14,29 @@ import { Button } from '@/components/ui/button';
 interface SidebarProps {
   activeView: string;
   setActiveView: (view: string) => void;
+  onLogout: () => void;
 }
 
-const Sidebar = ({ activeView, setActiveView }: SidebarProps) => {
+const Sidebar = ({ activeView, setActiveView, onLogout }: SidebarProps) => {
   const menuItems = [
-    { id: 'hub', label: 'Intelligence Hub', icon: Brain, color: 'text-purple-600' },
-    { id: 'chat', label: 'AI Assistant', icon: MessageCircle, color: 'text-blue-600' },
-    { id: 'inbox', label: 'Smart Inbox', icon: Mail, color: 'text-green-600' },
-    { id: 'digest', label: 'Doc Digest', icon: FileText, color: 'text-orange-600' },
-    { id: 'tone', label: 'ToneAware', icon: PenTool, color: 'text-purple-600' },
-    { id: 'social', label: 'Social Personalizer', icon: Share2, color: 'text-pink-600' },
-    { id: 'meeting', label: 'Meeting Intelligence', icon: Users, color: 'text-indigo-600' },
-    { id: 'memory', label: 'Memory Keeper', icon: Clock, color: 'text-teal-600' },
+    { id: 'hub', label: 'Intelligence Hub', icon: Brain, color: 'text-primary' },
+    { id: 'chat', label: 'AI Assistant', icon: MessageCircle, color: 'text-primary' },
+    { id: 'inbox', label: 'Smart Inbox', icon: Mail, color: 'text-primary' },
+    { id: 'digest', label: 'Doc Digest', icon: FileText, color: 'text-primary' },
+    { id: 'tone', label: 'ToneAware', icon: PenTool, color: 'text-primary' },
+    { id: 'social', label: 'Social Personalizer', icon: Share2, color: 'text-primary' },
+    { id: 'meeting', label: 'Meeting Intelligence', icon: Users, color: 'text-primary' },
+    { id: 'memory', label: 'Memory Keeper', icon: Clock, color: 'text-primary' },
   ];
 
   return (
-    <aside className="w-64 bg-slate-50 border-r border-slate-200 h-screen py-8 px-3 flex flex-col">
+    <aside className="w-64 bg-card border-r border-border h-screen py-8 px-3 flex flex-col backdrop-blur-sm">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
-          Acme Intelligence
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-tight">
+          Project Ogma
         </h2>
-        <p className="text-sm text-slate-500 mt-1">
-          Your AI-powered unified workspace
+        <p className="text-sm text-muted-foreground mt-1">
+          Post-agentic intelligence platform
         </p>
       </div>
 
@@ -65,7 +66,7 @@ const Sidebar = ({ activeView, setActiveView }: SidebarProps) => {
           />
           John Doe
         </Button>
-        <Button variant="outline" className="w-full justify-center mt-2">
+        <Button variant="outline" className="w-full justify-center mt-2" onClick={onLogout}>
           Logout
         </Button>
       </div>
