@@ -19,6 +19,23 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'body': ['Inter', 'system-ui', 'sans-serif'],
+				'heading': ['Space Grotesk', 'system-ui', 'sans-serif'],
+				'mono': ['ui-monospace', 'SFMono-Regular', 'monospace'],
+			},
+			fontSize: {
+				'xs': ['0.75rem', { lineHeight: '1.5', letterSpacing: '0.025em' }],
+				'sm': ['0.875rem', { lineHeight: '1.5', letterSpacing: '0.025em' }],
+				'base': ['1rem', { lineHeight: '1.6', letterSpacing: '0.025em' }],
+				'lg': ['1.125rem', { lineHeight: '1.6', letterSpacing: '0.025em' }],
+				'xl': ['1.25rem', { lineHeight: '1.5', letterSpacing: '0.025em' }],
+				'2xl': ['1.5rem', { lineHeight: '1.4', letterSpacing: '0.025em' }],
+				'3xl': ['1.875rem', { lineHeight: '1.3', letterSpacing: '-0.025em' }],
+				'4xl': ['2.25rem', { lineHeight: '1.2', letterSpacing: '-0.025em' }],
+				'5xl': ['3rem', { lineHeight: '1.1', letterSpacing: '-0.025em' }],
+				'6xl': ['3.75rem', { lineHeight: '1', letterSpacing: '-0.025em' }],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -86,7 +103,6 @@ export default {
 						height: '0'
 					}
 				},
-				// Simplified post-agentic animations
 				'neural-pulse': {
 					'0%, 100%': { 
 						boxShadow: '0 0 0 0 hsl(var(--primary) / 0.4)',
@@ -94,7 +110,7 @@ export default {
 					},
 					'50%': { 
 						boxShadow: '0 0 0 8px hsl(var(--primary) / 0)',
-						transform: 'scale(1.01)'
+						transform: 'scale(1.02)'
 					}
 				},
 				'predictive-emerge': {
@@ -109,31 +125,22 @@ export default {
 						filter: 'blur(0px)'
 					}
 				},
-				'context-awareness': {
-					'0%': { backgroundColor: 'transparent' },
-					'50%': { backgroundColor: 'hsl(var(--primary) / 0.05)' },
-					'100%': { backgroundColor: 'transparent' }
+				'gentle-float': {
+					'0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+					'50%': { transform: 'translateY(-10px) rotate(1deg)' }
 				},
-				// Essential UI animations
-				'message-appear': {
-					'0%': { 
-						transform: 'translateY(10px) scale(0.98)', 
-						opacity: '0' 
-					},
-					'100%': { 
-						transform: 'translateY(0) scale(1)', 
-						opacity: '1' 
-					}
+				'shimmer': {
+					'0%': { backgroundPosition: '-200% 0' },
+					'100%': { backgroundPosition: '200% 0' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				// Core post-agentic animations
-				'neural-pulse': 'neural-pulse 3s ease-in-out infinite',
-				'predictive-emerge': 'predictive-emerge 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
-				'context-awareness': 'context-awareness 4s ease-in-out infinite',
-				'message-appear': 'message-appear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
+				'neural-pulse': 'neural-pulse 4s ease-in-out infinite',
+				'predictive-emerge': 'predictive-emerge 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
+				'gentle-float': 'gentle-float 6s ease-in-out infinite',
+				'shimmer': 'shimmer 2s linear infinite'
 			}
 		}
 	},
