@@ -17,38 +17,38 @@ const AmbientBackground: React.FC<AmbientBackgroundProps> = ({ emotion, children
   const getGradient = () => {
     switch (emotion) {
       case 'creative':
-        return 'bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50';
+        return 'bg-gradient-to-br from-background via-background to-pink-950/20';
       case 'focused':
-        return 'bg-gradient-to-br from-violet-50 via-blue-50 to-indigo-50';
+        return 'bg-gradient-to-br from-background via-background to-violet-950/20';
       case 'energetic':
-        return 'bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50';
+        return 'bg-gradient-to-br from-background via-background to-amber-950/20';
       case 'calm':
-        return 'bg-gradient-to-br from-blue-50 via-indigo-50 to-slate-50';
+        return 'bg-gradient-to-br from-background via-background to-blue-950/20';
       case 'analytical':
-        return 'bg-gradient-to-br from-cyan-50 via-teal-50 to-blue-50';
+        return 'bg-gradient-to-br from-background via-background to-cyan-950/20';
       case 'social':
-        return 'bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50';
+        return 'bg-gradient-to-br from-background via-background to-emerald-950/20';
       default:
-        return 'bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50';
+        return 'bg-background';
     }
   };
 
   const getOverlay = () => {
     switch (emotion) {
       case 'creative':
-        return 'rgba(236, 72, 153, 0.02)';
+        return 'hsla(330, 81%, 60%, 0.02)';
       case 'focused':
-        return 'rgba(139, 92, 246, 0.02)';
+        return 'hsla(271, 91%, 65%, 0.02)';
       case 'energetic':
-        return 'rgba(245, 158, 11, 0.02)';
+        return 'hsla(45, 93%, 47%, 0.02)';
       case 'calm':
-        return 'rgba(99, 102, 241, 0.02)';
+        return 'hsla(235, 86%, 65%, 0.02)';
       case 'analytical':
-        return 'rgba(6, 182, 212, 0.02)';
+        return 'hsla(188, 94%, 42%, 0.02)';
       case 'social':
-        return 'rgba(16, 185, 129, 0.02)';
+        return 'hsla(142, 76%, 36%, 0.02)';
       default:
-        return 'rgba(100, 116, 139, 0.02)';
+        return 'hsla(220, 13%, 18%, 0.02)';
     }
   };
 
@@ -62,10 +62,9 @@ const AmbientBackground: React.FC<AmbientBackgroundProps> = ({ emotion, children
       }}
     >
       <div
-        className="absolute inset-0 transition-all duration-1000"
+        className="absolute inset-0 transition-all duration-1000 opacity-30"
         style={{
-          background: `radial-gradient(circle at 50% 50%, ${getOverlay()} 0%, transparent 50%)`,
-          animation: 'breathe 8s ease-in-out infinite'
+          background: `radial-gradient(circle at 30% 70%, ${getOverlay()} 0%, transparent 50%)`
         }}
       />
       <div className="relative z-10">

@@ -12,46 +12,46 @@ interface EmotionalColorConfig {
 
 const emotionColors: Record<EmotionType, EmotionalColorConfig> = {
   calm: {
-    primary: '#6366f1',
-    secondary: '#e0e7ff',
-    accent: '#a5b4fc',
-    glow: 'rgba(99, 102, 241, 0.3)'
+    primary: 'hsl(235 86% 65%)',
+    secondary: 'hsl(235 86% 95%)',
+    accent: 'hsl(235 86% 80%)',
+    glow: 'hsla(235, 86%, 65%, 0.3)'
   },
   focused: {
-    primary: '#8b5cf6',
-    secondary: '#f3e8ff',
-    accent: '#c4b5fd',
-    glow: 'rgba(139, 92, 246, 0.3)'
+    primary: 'hsl(271 91% 65%)',
+    secondary: 'hsl(271 91% 95%)',
+    accent: 'hsl(271 91% 80%)',
+    glow: 'hsla(271, 91%, 65%, 0.3)'
   },
   creative: {
-    primary: '#ec4899',
-    secondary: '#fdf2f8',
-    accent: '#f9a8d4',
-    glow: 'rgba(236, 72, 153, 0.3)'
+    primary: 'hsl(330 81% 60%)',
+    secondary: 'hsl(330 81% 95%)',
+    accent: 'hsl(330 81% 75%)',
+    glow: 'hsla(330, 81%, 60%, 0.3)'
   },
   analytical: {
-    primary: '#06b6d4',
-    secondary: '#ecfeff',
-    accent: '#67e8f9',
-    glow: 'rgba(6, 182, 212, 0.3)'
+    primary: 'hsl(188 94% 42%)',
+    secondary: 'hsl(188 94% 95%)',
+    accent: 'hsl(188 94% 70%)',
+    glow: 'hsla(188, 94%, 42%, 0.3)'
   },
   social: {
-    primary: '#10b981',
-    secondary: '#ecfdf5',
-    accent: '#6ee7b7',
-    glow: 'rgba(16, 185, 129, 0.3)'
+    primary: 'hsl(142 76% 36%)',
+    secondary: 'hsl(142 76% 95%)',
+    accent: 'hsl(142 76% 70%)',
+    glow: 'hsla(142, 76%, 36%, 0.3)'
   },
   energetic: {
-    primary: '#f59e0b',
-    secondary: '#fffbeb',
-    accent: '#fbbf24',
-    glow: 'rgba(245, 158, 11, 0.3)'
+    primary: 'hsl(45 93% 47%)',
+    secondary: 'hsl(45 93% 95%)',
+    accent: 'hsl(45 93% 70%)',
+    glow: 'hsla(45, 93%, 47%, 0.3)'
   },
   neutral: {
-    primary: '#64748b',
-    secondary: '#f8fafc',
-    accent: '#94a3b8',
-    glow: 'rgba(100, 116, 139, 0.3)'
+    primary: 'hsl(var(--primary))',
+    secondary: 'hsl(var(--secondary))',
+    accent: 'hsl(var(--accent))',
+    glow: 'hsla(var(--primary) / 0.3)'
   }
 };
 

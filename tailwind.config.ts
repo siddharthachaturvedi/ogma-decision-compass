@@ -62,16 +62,6 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				},
-				// Emotional color system
-				emotion: {
-					calm: '#6366f1',
-					focused: '#8b5cf6',
-					creative: '#ec4899',
-					analytical: '#06b6d4',
-					social: '#10b981',
-					energetic: '#f59e0b',
-					neutral: '#64748b'
 				}
 			},
 			borderRadius: {
@@ -96,31 +86,22 @@ export default {
 						height: '0'
 					}
 				},
-				// Post-agentic animations
+				// Simplified post-agentic animations
 				'neural-pulse': {
 					'0%, 100%': { 
-						boxShadow: '0 0 0 0 hsl(var(--neural-primary) / 0.7)',
+						boxShadow: '0 0 0 0 hsl(var(--primary) / 0.4)',
 						transform: 'scale(1)'
 					},
 					'50%': { 
-						boxShadow: '0 0 0 10px hsl(var(--neural-primary) / 0)',
-						transform: 'scale(1.02)'
+						boxShadow: '0 0 0 8px hsl(var(--primary) / 0)',
+						transform: 'scale(1.01)'
 					}
-				},
-				'ambient-float': {
-					'0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-					'50%': { transform: 'translateY(-10px) rotate(1deg)' }
-				},
-				'wisdom-flow': {
-					'0%': { opacity: '0', transform: 'translateX(-50px)' },
-					'50%': { opacity: '1' },
-					'100%': { opacity: '0', transform: 'translateX(50px)' }
 				},
 				'predictive-emerge': {
 					'0%': { 
 						opacity: '0', 
-						transform: 'scale(0.8) translateY(20px)',
-						filter: 'blur(4px)'
+						transform: 'scale(0.95) translateY(10px)',
+						filter: 'blur(2px)'
 					},
 					'100%': { 
 						opacity: '1', 
@@ -130,35 +111,13 @@ export default {
 				},
 				'context-awareness': {
 					'0%': { backgroundColor: 'transparent' },
-					'50%': { backgroundColor: 'hsl(var(--neural-primary) / 0.1)' },
+					'50%': { backgroundColor: 'hsl(var(--primary) / 0.05)' },
 					'100%': { backgroundColor: 'transparent' }
 				},
-				// Emotional animations
-				'breathe': {
-					'0%, 100%': { transform: 'scale(1)', opacity: '0.8' },
-					'50%': { transform: 'scale(1.05)', opacity: '1' }
-				},
-				'pulse-glow': {
-					'0%, 100%': { boxShadow: '0 0 5px hsl(var(--neural-primary) / 0.5)' },
-					'50%': { boxShadow: '0 0 20px hsl(var(--neural-primary) / 0.8)' }
-				},
-				'thought-bubble': {
-					'0%': { transform: 'scale(0.8)', opacity: '0' },
-					'50%': { transform: 'scale(1.1)', opacity: '0.7' },
-					'100%': { transform: 'scale(1)', opacity: '1' }
-				},
-				'sentiment-shift': {
-					'0%': { backgroundColor: 'var(--from-color)' },
-					'100%': { backgroundColor: 'var(--to-color)' }
-				},
-				'typing-dots': {
-					'0%, 20%': { transform: 'translateY(0)' },
-					'40%': { transform: 'translateY(-10px)' },
-					'60%': { transform: 'translateY(0)' }
-				},
+				// Essential UI animations
 				'message-appear': {
 					'0%': { 
-						transform: 'translateY(20px) scale(0.95)', 
+						transform: 'translateY(10px) scale(0.98)', 
 						opacity: '0' 
 					},
 					'100%': { 
@@ -170,19 +129,11 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				// Post-agentic animations
-				'neural-pulse': 'neural-pulse 2s ease-in-out infinite',
-				'ambient-float': 'ambient-float 6s ease-in-out infinite',
-				'wisdom-flow': 'wisdom-flow 3s ease-in-out infinite',
-				'predictive-emerge': 'predictive-emerge 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
-				'context-awareness': 'context-awareness 2s ease-in-out infinite',
-				// Emotional animations
-				'breathe': 'breathe 3s ease-in-out infinite',
-				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-				'thought-bubble': 'thought-bubble 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
-				'sentiment-shift': 'sentiment-shift 1s ease-in-out',
-				'typing-dots': 'typing-dots 1.4s ease-in-out infinite',
-				'message-appear': 'message-appear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+				// Core post-agentic animations
+				'neural-pulse': 'neural-pulse 3s ease-in-out infinite',
+				'predictive-emerge': 'predictive-emerge 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+				'context-awareness': 'context-awareness 4s ease-in-out infinite',
+				'message-appear': 'message-appear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
 			}
 		}
 	},

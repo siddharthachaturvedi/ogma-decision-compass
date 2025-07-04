@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Brain, Lightbulb, Zap } from 'lucide-react';
 
@@ -38,7 +39,7 @@ const PostAgenticLayout: React.FC<PostAgenticLayoutProps> = ({ children, userEma
   }, []);
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen bg-background">
       {/* Ambient thinking indicator */}
       {isThinking && (
         <div className="fixed top-4 right-4 z-50 animate-predictive-emerge">
@@ -55,11 +56,11 @@ const PostAgenticLayout: React.FC<PostAgenticLayoutProps> = ({ children, userEma
           {contextualInsights.map((insight, index) => (
             <div 
               key={index}
-              className="mb-3 p-3 bg-card/80 backdrop-blur-sm border border-primary/20 rounded-lg shadow-lg animate-ambient-float"
+              className="mb-3 p-3 bg-card/80 backdrop-blur-sm border border-primary/20 rounded-lg shadow-lg"
               style={{ animationDelay: `${index * 0.5}s` }}
             >
               <div className="flex items-start space-x-2">
-                <Lightbulb className="h-4 w-4 text-accent mt-0.5 animate-pulse" />
+                <Lightbulb className="h-4 w-4 text-primary mt-0.5" />
                 <p className="text-xs text-muted-foreground">{insight}</p>
               </div>
             </div>
@@ -76,15 +77,6 @@ const PostAgenticLayout: React.FC<PostAgenticLayoutProps> = ({ children, userEma
           </div>
         </button>
       </div>
-
-      {/* Neural network overlay */}
-      <div 
-        className="fixed inset-0 pointer-events-none opacity-10 z-10"
-        style={{
-          background: 'var(--neural-network)',
-          animation: 'wisdom-flow 20s linear infinite'
-        }}
-      />
 
       {/* Main content */}
       <div className="relative z-20">
