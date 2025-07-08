@@ -26,7 +26,6 @@ const PostAgenticLayout: React.FC<PostAgenticLayoutProps> = ({ children, userEma
     const insights = [
       "Your meeting pattern suggests scheduling focus time at 2 PM",
       "Similar documents from last month might be relevant",
-      "Colleague Sarah mentioned this topic in yesterday's chat",
       "Energy levels typically peak in 20 minutes - good time for decisions"
     ];
 
