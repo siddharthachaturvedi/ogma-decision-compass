@@ -69,15 +69,18 @@ const Index: React.FC<IndexProps> = ({ onLogout }) => {
 
   return (
     <AmbientBackground emotion={emotion}>
-      <div className="min-h-screen flex">
+      <div className="min-h-screen flex bg-background">
         <AdaptiveWorkspace 
           activeView={activeView} 
           onNavigate={handleNavigation} 
           onLogout={onLogout} 
         />
         
-        <main className="flex-1 overflow-hidden relative">
-          {renderActiveView()}
+        <main className="flex-1 relative min-w-0">
+          <div className="h-full">
+            {renderActiveView()}
+          </div>
+          
           <ContextualActionButton 
             currentContext={getContextDescription(activeView)}
             onNavigate={handleNavigation} 
