@@ -84,7 +84,7 @@ const PostAgenticLayout: React.FC<PostAgenticLayoutProps> = ({ children, userEma
       </div>
 
       {/* Main content with enhanced styling */}
-      <div className="relative z-20">
+      <div className="relative z-20 p-8 md:p-12 lg:p-16">
         {children}
       </div>
     </div>

@@ -21,9 +21,9 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({ onNavigate }) => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <DashboardHeader onNavigate={onNavigate} />
-      
-      <QuickStatsGrid contexts={contexts} insights={insights} />
+      <DashboardHeader onNavigate={onNavigate} className="mb-8" />
+
+      <QuickStatsGrid contexts={contexts} insights={insights} className="mb-8" />
 
       <Tabs defaultValue="insights" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4 bg-card/50 border border-primary/20">
