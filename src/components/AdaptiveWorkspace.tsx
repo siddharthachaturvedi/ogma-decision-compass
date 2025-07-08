@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,6 +17,8 @@ import {
   X,
   ChevronRight
 } from 'lucide-react';
+import { useAppContext } from '@/contexts/AppContext';
+import { useNavigationEngine } from '@/hooks/useNavigationEngine';
 
 interface AdaptiveWorkspaceProps {
   activeView: string;
@@ -32,6 +33,8 @@ const AdaptiveWorkspace: React.FC<AdaptiveWorkspaceProps> = ({
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const { state } = useAppContext();
+  const { getViewDescription, getSuggestedViews } = useNavigationEngine();
 
   const menuItems = [
     { id: 'hub', label: 'Intelligence Hub', icon: Brain, color: 'text-primary' },
@@ -44,36 +47,8 @@ const AdaptiveWorkspace: React.FC<AdaptiveWorkspaceProps> = ({
     { id: 'memory', label: 'Memory Keeper', icon: Clock, color: 'text-muted-foreground' },
   ];
 
-  const getSuggestedFeatures = (currentView: string): string[] => {
-    const suggestions: Record<string, string[]> = {
-      'hub': ['chat', 'inbox', 'digest'],
-      'chat': ['digest', 'memory', 'social'],
-      'inbox': ['chat', 'social', 'meeting'],
-      'digest': ['chat', 'memory', 'tone'],
-      'tone': ['social', 'chat', 'digest'],
-      'social': ['meeting', 'tone', 'inbox'],
-      'meeting': ['social', 'memory', 'inbox'],
-      'memory': ['chat', 'digest', 'hub']
-    };
-    return suggestions[currentView] || ['chat', 'hub', 'memory'];
-  };
-
-  const getContextDescription = (view: string): string => {
-    const contexts: Record<string, string> = {
-      'hub': 'Analyzing cross-platform patterns',
-      'chat': 'AI conversation context',
-      'inbox': 'Email analysis and insights',
-      'digest': 'Document processing',
-      'tone': 'Communication optimization',
-      'social': 'Relationship mapping',
-      'meeting': 'Collaboration insights',
-      'memory': 'Knowledge retention'
-    };
-    return contexts[view] || 'Processing context';
-  };
-
-  const suggestedFeatures = getSuggestedFeatures(activeView);
-  const currentContext = getContextDescription(activeView);
+  const suggestedFeatures = getSuggestedViews(activeView);
+  const currentContext = getViewDescription(activeView);
 
   const getFeatureIcon = (feature: string) => {
     const iconMap: Record<string, any> = {
@@ -220,7 +195,7 @@ const AdaptiveWorkspace: React.FC<AdaptiveWorkspaceProps> = ({
           </div>
         </div>
 
-        {/* Current Context */}
+        {/* Current Context with real data */}
         {!isCollapsed && (
           <div className="p-4">
             <Card className="shadow-soft border-border/50">
@@ -232,6 +207,9 @@ const AdaptiveWorkspace: React.FC<AdaptiveWorkspaceProps> = ({
               </CardHeader>
               <CardContent className="pt-0">
                 <p className="text-xs text-muted-foreground">{currentContext}</p>
+                <div className="mt-2 text-xs text-primary">
+                  {state.contexts.length} active contexts • {state.insights.length} insights
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -267,7 +245,7 @@ const AdaptiveWorkspace: React.FC<AdaptiveWorkspaceProps> = ({
           ))}
         </div>
 
-        {/* Smart Suggestions */}
+        {/* Intelligent Suggestions based on real behavior */}
         {!isCollapsed && (
           <div className="p-4 space-y-3">
             <h3 className="text-sm font-medium text-foreground flex items-center space-x-2">
@@ -295,7 +273,7 @@ const AdaptiveWorkspace: React.FC<AdaptiveWorkspaceProps> = ({
                           {getFeatureLabel(feature)}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Suggested for context
+                          Based on your patterns
                         </div>
                       </div>
                     </div>
