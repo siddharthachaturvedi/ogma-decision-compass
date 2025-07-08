@@ -30,6 +30,20 @@ const Index: React.FC<IndexProps> = ({ onLogout }) => {
     setActiveView(view);
   };
 
+  const getContextDescription = (view: string): string => {
+    const contexts: Record<string, string> = {
+      'hub': 'Analyzing cross-platform patterns and connections',
+      'chat': 'AI conversation context and learning patterns',
+      'inbox': 'Email analysis and communication insights',
+      'digest': 'Document processing and knowledge extraction',
+      'tone': 'Communication style analysis and optimization',
+      'social': 'Social dynamics and relationship mapping',
+      'meeting': 'Meeting context and collaboration insights',
+      'memory': 'Knowledge retention and contextual memory'
+    };
+    return contexts[view] || 'Processing current context';
+  };
+
   const renderActiveView = () => {
     switch (activeView) {
       case 'hub':
@@ -64,7 +78,10 @@ const Index: React.FC<IndexProps> = ({ onLogout }) => {
         
         <main className="flex-1 overflow-hidden relative">
           {renderActiveView()}
-          <ContextualActionButton onNavigate={handleNavigation} />
+          <ContextualActionButton 
+            currentContext={getContextDescription(activeView)}
+            onNavigate={handleNavigation} 
+          />
         </main>
 
         {showOnboarding && (

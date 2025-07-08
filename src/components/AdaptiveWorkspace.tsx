@@ -17,16 +17,48 @@ import {
 } from 'lucide-react';
 
 interface AdaptiveWorkspaceProps {
-  currentContext: string;
-  suggestedFeatures: string[];
+  activeView: string;
   onNavigate: (view: string) => void;
+  onLogout: () => void;
 }
 
 const AdaptiveWorkspace: React.FC<AdaptiveWorkspaceProps> = ({
-  currentContext,
-  suggestedFeatures,
-  onNavigate
+  activeView,
+  onNavigate,
+  onLogout
 }) => {
+  // Generate suggested features based on current view
+  const getSuggestedFeatures = (currentView: string): string[] => {
+    const suggestions: Record<string, string[]> = {
+      'hub': ['chat', 'inbox', 'digest'],
+      'chat': ['digest', 'memory', 'social'],
+      'inbox': ['chat', 'social', 'meeting'],
+      'digest': ['chat', 'memory', 'tone'],
+      'tone': ['social', 'chat', 'digest'],
+      'social': ['meeting', 'tone', 'inbox'],
+      'meeting': ['social', 'memory', 'inbox'],
+      'memory': ['chat', 'digest', 'hub']
+    };
+    return suggestions[currentView] || ['chat', 'hub', 'memory'];
+  };
+
+  const getContextDescription = (view: string): string => {
+    const contexts: Record<string, string> = {
+      'hub': 'Analyzing cross-platform patterns and connections',
+      'chat': 'AI conversation context and learning patterns',
+      'inbox': 'Email analysis and communication insights',
+      'digest': 'Document processing and knowledge extraction',
+      'tone': 'Communication style analysis and optimization',
+      'social': 'Social dynamics and relationship mapping',
+      'meeting': 'Meeting context and collaboration insights',
+      'memory': 'Knowledge retention and contextual memory'
+    };
+    return contexts[view] || 'Processing current context';
+  };
+
+  const suggestedFeatures = getSuggestedFeatures(activeView);
+  const currentContext = getContextDescription(activeView);
+
   const getFeatureIcon = (feature: string) => {
     const iconMap: Record<string, any> = {
       'chat': MessageCircle,
@@ -144,6 +176,14 @@ const AdaptiveWorkspace: React.FC<AdaptiveWorkspaceProps> = ({
             Chat
           </Button>
         </div>
+        
+        <Button 
+          variant="outline" 
+          className="w-full mt-3 justify-center border-border hover:bg-destructive/5 hover:border-destructive/30 hover:text-destructive transition-all duration-200 font-medium text-sm" 
+          onClick={onLogout}
+        >
+          Disconnect
+        </Button>
       </div>
     </div>
   );

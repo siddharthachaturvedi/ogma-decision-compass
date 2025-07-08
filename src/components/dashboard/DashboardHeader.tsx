@@ -7,13 +7,14 @@ import KineticText from '@/components/KineticText';
 
 interface DashboardHeaderProps {
   onNavigate: (view: string) => void;
+  className?: string;
 }
 
-const DashboardHeader: React.FC<DashboardHeaderProps> = ({ onNavigate }) => {
+const DashboardHeader: React.FC<DashboardHeaderProps> = ({ onNavigate, className = "" }) => {
   const { colors } = useEmotionalColor('analytical');
 
   return (
-    <div className="flex justify-between items-center mb-6">
+    <div className={`flex justify-between items-center mb-6 ${className}`}>
       <div>
         <h1 className="text-3xl font-bold text-slate-900 flex items-center space-x-2">
           <div style={{ color: colors.primary }}>

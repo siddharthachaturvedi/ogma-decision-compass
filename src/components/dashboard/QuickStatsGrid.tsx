@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Brain, Clock, Lightbulb, Target } from 'lucide-react';
@@ -6,9 +7,10 @@ import { ContextItem, IntelligenceInsight } from '@/types/context';
 interface QuickStatsGridProps {
   contexts: ContextItem[];
   insights: IntelligenceInsight[];
+  className?: string;
 }
 
-const QuickStatsGrid: React.FC<QuickStatsGridProps> = ({ contexts, insights }) => {
+const QuickStatsGrid: React.FC<QuickStatsGridProps> = ({ contexts, insights, className = "" }) => {
   const activeContexts = contexts.filter(c => c.status === 'active');
   const pendingContexts = contexts.filter(c => c.status === 'pending');
   const totalConnections = contexts.reduce((sum, ctx) => sum + ctx.connections.length, 0);
@@ -41,7 +43,7 @@ const QuickStatsGrid: React.FC<QuickStatsGridProps> = ({ contexts, insights }) =
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div className={`grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 ${className}`}>
       {stats.map((stat, index) => (
         <Card key={index}>
           <CardContent className="p-4 relative overflow-hidden">
