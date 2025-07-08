@@ -6,87 +6,102 @@
 @layer base {
   :root {
     --background: 0 0% 100%; /* White */
-    --foreground: 240 10% 3.9%; /* Black */
+    --foreground: 240 10% 3.9%; /* Nearly Black */
 
     --card: 0 0% 100%; /* White */
-    --card-foreground: 240 10% 3.9%; /* Black */
+    --card-foreground: 240 10% 3.9%; /* Nearly Black */
 
     --popover: 0 0% 100%; /* White */
-    --popover-foreground: 240 10% 3.9%; /* Black */
+    --popover-foreground: 240 10% 3.9%; /* Nearly Black */
 
-    --primary: 221.2 83.2% 53.9%; /* Blue */
-    --primary-foreground: 210 20% 98%; /* White */
+    --primary: 240 5.9% 10%; /* Dark Grey */
+    --primary-foreground: 0 0% 98%; /* Nearly White */
 
-    --secondary: 210 40% 96.1%; /* Light Gray */
-    --secondary-foreground: 222.2 47.4% 11.2%; /* Dark Blue-Gray */
+    --secondary: 240 4.8% 95.9%; /* Light Grey */
+    --secondary-foreground: 240 5.9% 10%; /* Dark Grey */
 
-    --muted: 210 40% 96.1%; /* Light Gray */
-    --muted-foreground: 215.4 16.3% 46.9%; /* Medium Gray */
+    --muted: 240 4.8% 95.9%; /* Light Grey */
+    --muted-foreground: 240 3.8% 46.1%; /* Medium Grey */
 
-    --accent: 210 40% 96.1%; /* Light Gray */
-    --accent-foreground: 222.2 47.4% 11.2%; /* Dark Blue-Gray */
+    --accent: 240 4.8% 95.9%; /* Light Grey */
+    --accent-foreground: 240 5.9% 10%; /* Dark Grey */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%; /* Red */
+    --destructive-foreground: 0 0% 98%; /* Nearly White */
 
-    --border: 214.3 31.8% 91.4%; /* Light Gray */
-    --input: 214.3 31.8% 91.4%; /* Light Gray */
-    --ring: 221.2 83.2% 53.9%; /* Blue */
+    --border: 240 5.9% 90%; /* Light Grey Border */
+    --input: 240 5.9% 90%; /* Light Grey Input Border */
+    --ring: 240 10% 3.9%; /* Nearly Black Ring */
 
-    --radius: 0.75rem;
-    
-    --ambient-glow: 213 78% 38% / 0.08;
-    --glass-bg: 255 255 255 / 0.85;
-    --glass-border: 255 255 255 / 0.3;
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 213 31% 19%;
-    --sidebar-primary: 213 78% 38%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 43 23% 96%;
-    --sidebar-accent-foreground: 213 31% 19%;
-    --sidebar-border: 43 13% 90%;
-    --sidebar-ring: 213 78% 38%;
+    --radius: 0.5rem; /* Slightly smaller radius */
+
+    /* Subtle Accent Color (Example: a very light blue or green) */
+    --subtle-accent: 200 50% 95%; /* Very light blue */
+    --subtle-accent-foreground: 200 100% 20%; /* Darker blue for contrast */
+
+    --ambient-glow: 240 10% 3.9% / 0.05; /* Subtle dark glow */
+    --glass-bg: 255 255 255 / 0.6; /* More transparent glass */
+    --glass-border: 240 5.9% 90% / 0.5; /* Subtle glass border */
+    --shadow-soft: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+    --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+    --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
+
+    --gradient-primary: linear-gradient(135deg, hsl(240 5.9% 10%) 0%, hsl(240 5% 20%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(240 10% 3.9% / 0.05) 0%, hsl(240 4.8% 95.9% / 0.05) 100%);
+
+    --sidebar-background: 0 0% 98%; /* Light Grey */
+    --sidebar-foreground: 240 10% 3.9%; /* Nearly Black */
+    --sidebar-primary: 240 5.9% 10%; /* Dark Grey */
+    --sidebar-primary-foreground: 0 0% 98%; /* Nearly White */
+    --sidebar-accent: 240 4.8% 95.9%; /* Light Grey */
+    --sidebar-accent-foreground: 240 5.9% 10%; /* Dark Grey */
+    --sidebar-border: 240 5.9% 90%; /* Light Grey Border */
+    --sidebar-ring: 240 10% 3.9%; /* Nearly Black Ring */
   }
 
   .dark {
-    --background: 240 10% 3.9%; /* Black */
-    --foreground: 210 20% 98%; /* White */
+    --background: 240 10% 3.9%; /* Nearly Black */
+    --foreground: 0 0% 98%; /* Nearly White */
 
-    --card: 240 10% 3.9%; /* Black */
-    --card-foreground: 210 20% 98%; /* White */
+    --card: 240 10% 5.9%; /* Darker Grey */
+    --card-foreground: 0 0% 98%; /* Nearly White */
 
-    --popover: 240 10% 3.9%; /* Black */
-    --popover-foreground: 210 20% 98%; /* White */
+    --popover: 240 10% 5.9%; /* Darker Grey */
+    --popover-foreground: 0 0% 98%; /* Nearly White */
 
-    --primary: 221.2 83.2% 53.9%; /* Blue */
-    --primary-foreground: 210 20% 98%; /* White */
+    --primary: 0 0% 98%; /* Nearly White */
+    --primary-foreground: 240 10% 3.9%; /* Nearly Black */
 
-    --secondary: 240 5.9% 10%; /* Dark Gray */
-    --secondary-foreground: 210 20% 98%; /* White */
+    --secondary: 240 3.7% 15.9%; /* Medium Dark Grey */
+    --secondary-foreground: 0 0% 98%; /* Nearly White */
 
-    --muted: 240 5.9% 10%; /* Dark Gray */
-    --muted-foreground: 215.4 16.3% 56.9%; /* Medium Gray */
+    --muted: 240 3.7% 15.9%; /* Medium Dark Grey */
+    --muted-foreground: 240 5% 65%; /* Lighter Grey */
 
-    --accent: 240 5.9% 10%; /* Dark Gray */
-    --accent-foreground: 210 20% 98%; /* White */
+    --accent: 240 3.7% 15.9%; /* Medium Dark Grey */
+    --accent-foreground: 0 0% 98%; /* Nearly White */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%; /* Darker Red */
+    --destructive-foreground: 0 0% 98%; /* Nearly White */
 
-    --border: 240 5.9% 10%; /* Dark Gray */
-    --input: 240 5.9% 10%; /* Dark Gray */
-    --ring: 221.2 83.2% 53.9%; /* Blue */
+    --border: 240 3.7% 15.9%; /* Medium Dark Grey Border */
+    --input: 240 3.7% 15.9%; /* Medium Dark Grey Input Border */
+    --ring: 0 0% 98%; /* Nearly White Ring */
     
-    --glass-bg: 213 31% 9% / 0.85;
-    --glass-border: 213 31% 15% / 0.6;
-    --sidebar-background: 240 10% 3.9%; /* Black */
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 213 78% 55%;
-    --sidebar-primary-foreground: 213 31% 7%;
-    --sidebar-accent: 213 31% 12%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 213 31% 15%;
-    --sidebar-ring: 213 78% 55%;
+    --glass-bg: 240 10% 5.9% / 0.6; /* More transparent glass */
+    --glass-border: 240 3.7% 15.9% / 0.5; /* Subtle glass border */
+    --shadow-soft: 0 1px 3px 0 rgb(0 0 0 / 0.2);
+    --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.15);
+    --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -2px rgb(0 0 0 / 0.2);
+
+    --sidebar-background: 240 10% 5.9%; /* Darker Grey */
+    --sidebar-foreground: 0 0% 98%; /* Nearly White */
+    --sidebar-primary: 0 0% 98%; /* Nearly White */
+    --sidebar-primary-foreground: 240 10% 3.9%; /* Nearly Black */
+    --sidebar-accent: 240 3.7% 15.9%; /* Medium Dark Grey */
+    --sidebar-accent-foreground: 0 0% 98%; /* Nearly White */
+    --sidebar-border: 240 3.7% 15.9%; /* Medium Dark Grey Border */
+    --sidebar-ring: 0 0% 98%; /* Nearly White Ring */
   }
 }
 
@@ -97,38 +112,52 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: "Inter", "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
- font-feature-settings: "cv11", "ss01";
+    font-family: 'Inter', sans-serif; /* Modern sans-serif font */
+    font-feature-settings: "cv11", "ss01";
     font-variation-settings: "opsz" auto;
-    font-size: 1.05rem;
-    padding: 1rem;
     text-rendering: optimizeLegibility;
     letter-spacing: -0.01em;
   }
 
   h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif; /* Use the same modern font for headings */
     font-feature-settings: "ss02", "cv11";
     letter-spacing: -0.02em;
+    margin-bottom: 0.5em; /* Add space below headings */
   }
 
-  h1 {
-    @apply text-4xl font-bold mb-4;
-  }
+  h1 { font-size: 2.5em; font-weight: 700; }
+  h2 { font-size: 2em; font-weight: 600; }
+  h3 { font-size: 1.5em; font-weight: 600; }
+  h4 { font-size: 1.2em; font-weight: 500; }
+  h5 { font-size: 1em; font-weight: 500; }
+  h6 { font-size: 0.9em; font-weight: 500; }
+}
 
+@layer utilities {
   .glass {
+    background: hsl(var(--glass-bg));
     backdrop-filter: blur(16px) saturate(180%);
     border: 1px solid hsl(var(--glass-border));
   }
-  
+
   .shadow-soft {
     box-shadow: var(--shadow-soft);
   }
-  
+
   .shadow-medium {
     box-shadow: var(--shadow-medium);
   }
-  
+
   .shadow-large {
     box-shadow: var(--shadow-large);
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
   }
 }

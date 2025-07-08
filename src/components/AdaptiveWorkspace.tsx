@@ -1,192 +1,149 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { 
   Brain, 
-  Zap, 
-  Clock, 
+  MessageCircle, 
+  Mail, 
+  FileText, 
+  PenTool, 
+  Share2, 
   Users, 
-  MessageCircle,
-  ChevronRight,
-  Lightbulb,
+  Clock,
+  Zap,
+  Activity,
   Target
 } from 'lucide-react';
-import { useAmbientIntelligence } from '@/hooks/useAmbientIntelligence';
-import { useContextEngine } from '@/hooks/useContextEngine';
 
 interface AdaptiveWorkspaceProps {
-  activeView: string;
+  currentContext: string;
+  suggestedFeatures: string[];
   onNavigate: (view: string) => void;
-  onLogout: () => void;
 }
 
-const AdaptiveWorkspace: React.FC<AdaptiveWorkspaceProps> = ({ 
-  activeView, 
-  onNavigate, 
-  onLogout 
+const AdaptiveWorkspace: React.FC<AdaptiveWorkspaceProps> = ({
+  currentContext,
+  suggestedFeatures,
+  onNavigate
 }) => {
-  const { contexts, insights } = useContextEngine();
-  const { 
-    ambientState, 
-    observePattern, 
-    predictNextAction, 
-    detectWorkspaceMode 
-  } = useAmbientIntelligence();
-
-  const [contextualFeatures, setContextualFeatures] = useState<string[]>([]);
-
-  // Update workspace mode based on current context
-  useEffect(() => {
-    detectWorkspaceMode(activeView, contexts);
-    predictNextAction(contexts, insights);
-  }, [activeView, contexts, insights, detectWorkspaceMode, predictNextAction]);
-
-  // Determine contextually relevant features
-  useEffect(() => {
-    const relevantFeatures = [];
-    
-    // Always show intelligence hub
-    relevantFeatures.push('hub');
-    
-    // Context-aware feature suggestions
-    if (ambientState.workspaceMode === 'collaborative') {
-      relevantFeatures.push('meeting', 'social', 'chat');
-    } else if (ambientState.workspaceMode === 'analytical') {
-      relevantFeatures.push('digest', 'memory', 'chat');
-    } else if (ambientState.workspaceMode === 'creative') {
-      relevantFeatures.push('tone', 'social', 'chat');
-    } else if (ambientState.workspaceMode === 'social') {
-      relevantFeatures.push('social', 'inbox', 'chat');
-    } else {
-      // Focused mode - show most relevant based on pending contexts
-      if (contexts.some(c => c.type === 'email' && c.status === 'pending')) {
-        relevantFeatures.push('inbox');
-      }
-      if (contexts.some(c => c.type === 'meeting' && c.status === 'pending')) {
-        relevantFeatures.push('meeting');
-      }
-      relevantFeatures.push('chat');
-    }
-    
-    setContextualFeatures([...new Set(relevantFeatures)]);
-  }, [ambientState.workspaceMode, contexts]);
-
-  const getFeatureConfig = (featureId: string) => {
-    const configs = {
-      hub: { label: 'Intelligence Hub', icon: Brain, priority: 1 },
-      chat: { label: 'AI Assistant', icon: MessageCircle, priority: 2 },
-      inbox: { label: 'Smart Inbox', icon: Clock, priority: 3 },
-      meeting: { label: 'Meeting Intelligence', icon: Users, priority: 4 },
-      social: { label: 'Social Personalizer', icon: Target, priority: 5 },
-      digest: { label: 'Doc Digest', icon: Lightbulb, priority: 6 },
-      tone: { label: 'ToneAware', icon: Zap, priority: 7 },
-      memory: { label: 'Memory Keeper', icon: Clock, priority: 8 }
+  const getFeatureIcon = (feature: string) => {
+    const iconMap: Record<string, any> = {
+      'chat': MessageCircle,
+      'inbox': Mail,
+      'digest': FileText,
+      'tone': PenTool,
+      'social': Share2,
+      'meeting': Users,
+      'memory': Clock,
+      'hub': Brain
     };
-    return configs[featureId as keyof typeof configs];
+    return iconMap[feature] || Target;
   };
 
-  const handleFeatureClick = (featureId: string) => {
-    observePattern('workflow', `navigate-to-${featureId}`);
-    onNavigate(featureId);
+  const getFeatureLabel = (feature: string) => {
+    const labelMap: Record<string, string> = {
+      'chat': 'AI Assistant',
+      'inbox': 'Smart Inbox',
+      'digest': 'Doc Digest',
+      'tone': 'ToneAware',
+      'social': 'Social Personalizer',
+      'meeting': 'Meeting Intelligence',
+      'memory': 'Memory Keeper',
+      'hub': 'Intelligence Hub'
+    };
+    return labelMap[feature] || feature;
   };
 
   return (
-    <div className="w-80 glass border-r border-border/50 h-screen flex flex-col shadow-medium">
-      {/* Adaptive Header */}
+    <div className="w-80 glass border-r border-border h-screen flex flex-col shadow-medium">
+      {/* Header */}
       <div className="p-6 border-b border-border/50">
-        <div className="flex items-center space-x-3 mb-4">
-          <Brain className="h-8 w-8 text-primary animate-neural-pulse" />
+        <div className="flex items-center space-x-3 mb-3">
+          <div className="p-2 rounded-lg gradient-primary">
+            <Brain className="h-5 w-5 text-primary-foreground animate-neural-pulse" />
+          </div>
           <div>
-            <h2 className="text-xl font-heading font-bold text-foreground">
-              Project Ogma
-            </h2>
-            <Badge variant="secondary" className="text-xs">
-              {ambientState.workspaceMode} mode
-            </Badge>
+            <h2 className="text-lg font-semibold text-foreground">Project Ogma</h2>
+            <p className="text-xs text-muted-foreground">Adaptive Intelligence</p>
           </div>
         </div>
-        
-        {/* Ambient Intelligence Indicator */}
-        {ambientState.nextSuggestedAction && (
-          <Card className="bg-primary/5 border-primary/20">
-            <CardContent className="p-3">
-              <div className="flex items-start space-x-2">
-                <Lightbulb className="h-4 w-4 text-primary mt-0.5" />
-                <p className="text-sm text-foreground leading-relaxed">
-                  {ambientState.nextSuggestedAction}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        )}
       </div>
 
-      {/* Contextual Navigation */}
-      <div className="flex-1 p-4 space-y-2">
-        <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-3">
-          Contextual Workspace
+      {/* Current Context */}
+      <div className="p-4">
+        <Card className="shadow-soft border-border/50">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center space-x-2">
+              <Activity className="h-4 w-4 text-primary" />
+              <span>Current Context</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <p className="text-xs text-muted-foreground">{currentContext}</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Suggested Features */}
+      <div className="flex-1 p-4 space-y-3">
+        <h3 className="text-sm font-medium text-foreground mb-3 flex items-center space-x-2">
+          <Zap className="h-4 w-4 text-primary" />
+          <span>Smart Suggestions</span>
         </h3>
         
-        {contextualFeatures.map((featureId) => {
-          const config = getFeatureConfig(featureId);
-          if (!config) return null;
-          
-          const isActive = activeView === featureId;
-          
-          return (
-            <Button
-              key={featureId}
-              variant={isActive ? "default" : "ghost"}
-              className={`w-full justify-between font-medium h-12 transition-all duration-300 ${
-                isActive 
-                  ? "shadow-soft scale-105 bg-primary text-primary-foreground" 
-                  : "hover:shadow-soft hover:scale-105"
-              }`}
-              onClick={() => handleFeatureClick(featureId)}
-            >
-              <div className="flex items-center space-x-3">
-                <div className={`p-2 rounded-lg ${
-                  isActive 
-                    ? 'bg-primary-foreground/20' 
-                    : 'bg-primary/10'
-                } transition-colors duration-300`}>
-                  <config.icon className="h-4 w-4" />
+        <div className="space-y-2">
+          {suggestedFeatures.map((feature, index) => {
+            const Icon = getFeatureIcon(feature);
+            return (
+              <Button
+                key={feature}
+                variant="ghost"
+                className="w-full justify-start h-auto p-3 hover:shadow-soft hover:scale-[1.02] transition-all duration-200 animate-predictive-emerge"
+                style={{ animationDelay: `${index * 0.1}s` }}
+                onClick={() => onNavigate(feature)}
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="p-1.5 rounded-md bg-primary/5">
+                    <Icon className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <div className="text-sm font-medium text-foreground">
+                      {getFeatureLabel(feature)}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      Suggested for current context
+                    </div>
+                  </div>
                 </div>
-                <span>{config.label}</span>
-              </div>
-              <ChevronRight className="h-4 w-4 opacity-50" />
-            </Button>
-          );
-        })}
+              </Button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Context Summary */}
-      <div className="p-4 border-t border-border/50 space-y-3">
-        <div className="text-xs text-muted-foreground space-y-1">
-          <div className="flex justify-between">
-            <span>Active Contexts</span>
-            <span>{contexts.filter(c => c.status === 'active').length}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Pending Actions</span>
-            <span>{contexts.filter(c => c.status === 'pending').length}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>AI Insights</span>
-            <span>{insights.length}</span>
-          </div>
+      {/* Quick Actions */}
+      <div className="p-4 border-t border-border/50">
+        <div className="grid grid-cols-2 gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs hover:shadow-soft transition-all duration-200"
+            onClick={() => onNavigate('hub')}
+          >
+            <Brain className="h-3 w-3 mr-1" />
+            Hub
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs hover:shadow-soft transition-all duration-200"
+            onClick={() => onNavigate('chat')}
+          >
+            <MessageCircle className="h-3 w-3 mr-1" />
+            Chat
+          </Button>
         </div>
-        
-        <Button 
-          variant="outline" 
-          size="sm"
-          className="w-full" 
-          onClick={onLogout}
-        >
-          Disconnect
-        </Button>
       </div>
     </div>
   );
