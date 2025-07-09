@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuthStore } from '@/stores/authStore';
-import { ArrowRight, Eye, EyeOff } from 'lucide-react';
+import { ArrowRight, Eye, EyeOff, Sparkles } from 'lucide-react';
+import { toast } from 'sonner';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -22,7 +23,8 @@ interface LoginFormProps {
 
 export function LoginForm({ onToggleMode, isSignUp }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false);
-  const { signIn, signUp, loading } = useAuthStore();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   
   const {
     register,
@@ -34,15 +36,18 @@ export function LoginForm({ onToggleMode, isSignUp }: LoginFormProps) {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    const { error } = isSignUp 
-      ? await signUp(data.email, data.password)
-      : await signIn(data.email, data.password);
+    setLoading(true);
+    
+    // Simulate loading for demo
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    toast.success(isSignUp ? 'Account created successfully!' : 'Welcome to Project Ogma!');
+    navigate('/demo');
+  };
 
-    if (error) {
-      setError('root', {
-        message: error.message || 'Authentication failed'
-      });
-    }
+  const handleDemoAccess = () => {
+    toast.success('Welcome to the Project Ogma demo!');
+    navigate('/demo');
   };
 
   return (
@@ -110,7 +115,8 @@ export function LoginForm({ onToggleMode, isSignUp }: LoginFormProps) {
           
           <Button 
             type="submit" 
-            className="w-full h-11 gradient-primary"
+            className="w-full h-11"
+            variant="gradient"
             disabled={loading}
           >
             {loading ? (
@@ -123,6 +129,24 @@ export function LoginForm({ onToggleMode, isSignUp }: LoginFormProps) {
             )}
           </Button>
         </form>
+        
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-border/30" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-card px-2 text-muted-foreground">Or</span>
+          </div>
+        </div>
+        
+        <Button
+          onClick={handleDemoAccess}
+          variant="outline"
+          className="w-full h-11"
+        >
+          <Sparkles className="mr-2 h-4 w-4" />
+          Explore Demo
+        </Button>
         
         <div className="text-center">
           <Button
@@ -140,7 +164,7 @@ export function LoginForm({ onToggleMode, isSignUp }: LoginFormProps) {
         {!isSignUp && (
           <div className="p-3 rounded-lg bg-muted/30 border border-border/30">
             <p className="text-xs text-muted-foreground text-center leading-relaxed">
-              <strong className="text-foreground">Demo:</strong> Use any email and password to explore
+              <strong className="text-foreground">Demo:</strong> Click "Explore Demo" to see the full experience
             </p>
           </div>
         )}

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { LoginForm } from './LoginForm';
 import { Brain, Sparkles, Network, Zap, Eye, Shield } from 'lucide-react';
 
 export default function LandingPage() {
   const [isSignUp, setIsSignUp] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">

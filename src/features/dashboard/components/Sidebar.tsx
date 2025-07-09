@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuthStore } from '@/stores/authStore';
+import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '@/stores/appStore';
 import { Button } from '@/components/ui/button';
 import { 
@@ -13,8 +13,10 @@ import {
   Clock,
   Menu,
   LogOut,
-  Home
+  Home,
+  ArrowLeft
 } from 'lucide-react';
+import { toast } from 'sonner';
 
 const menuItems = [
   { id: 'dashboard', label: 'Dashboard', icon: Home },
@@ -28,12 +30,12 @@ const menuItems = [
 ];
 
 export function Sidebar() {
-  const user = useAuthStore(state => state.user);
-  const signOut = useAuthStore(state => state.signOut);
+  const navigate = useNavigate();
   const { activeView, setActiveView, sidebarCollapsed, setSidebarCollapsed } = useAppStore();
 
-  const handleSignOut = async () => {
-    await signOut();
+  const handleBackToLanding = () => {
+    toast.success('Thanks for exploring Project Ogma!');
+    navigate('/');
   };
 
   return (
@@ -84,18 +86,18 @@ export function Sidebar() {
           {!sidebarCollapsed && (
             <div className="mb-3 p-2 rounded-lg bg-muted/50">
               <p className="text-sm font-medium text-foreground truncate">
-                {user?.email}
+                demo@projectogma.ai
               </p>
-              <p className="text-xs text-muted-foreground">Active User</p>
+              <p className="text-xs text-muted-foreground">Demo User</p>
             </div>
           )}
           <Button
             variant="outline"
-            onClick={handleSignOut}
+            onClick={handleBackToLanding}
             className={`w-full ${sidebarCollapsed ? 'px-0' : ''}`}
           >
-            <LogOut className="h-4 w-4" />
-            {!sidebarCollapsed && <span className="ml-2">Sign Out</span>}
+            <ArrowLeft className="h-4 w-4" />
+            {!sidebarCollapsed && <span className="ml-2">Back to Landing</span>}
           </Button>
         </div>
       </div>
