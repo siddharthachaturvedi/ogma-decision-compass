@@ -1,62 +1,61 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from 'sonner';
+import { AuthProvider } from '@/features/auth/AuthProvider';
+import { useAuthStore } from '@/stores/authStore';
+import LandingPage from '@/features/auth/LandingPage';
+import Dashboard from '@/features/dashboard/Dashboard';
+import './index.css';
 
-import React, { useState, useEffect } from 'react';
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AppProvider } from "./contexts/AppContext";
-import Landing from "./pages/Landing";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import PostAgenticLayout from "./components/PostAgenticLayout";
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      retry: 1,
+    },
+  },
+});
 
-const queryClient = new QueryClient();
+function AppRoutes() {
+  const user = useAuthStore(state => state.user);
 
-const App = () => {
-  const [user, setUser] = useState<{ email: string } | null>(null);
-
-  // Check for existing session
-  useEffect(() => {
-    const savedUser = localStorage.getItem('ogma-user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-  }, []);
-
-  const handleAuthentication = (email: string) => {
-    const userData = { email };
-    setUser(userData);
-    localStorage.setItem('ogma-user', JSON.stringify(userData));
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem('ogma-user');
-  };
+  if (!user) {
+    return <LandingPage />;
+  }
 
   return (
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
+
+function App() {
+  return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          {!user ? (
-            <Landing onAuthenticated={handleAuthentication} />
-          ) : (
-            <AppProvider>
-              <PostAgenticLayout userEmail={user.email}>
-                <Routes>
-                  <Route path="/" element={<Index onLogout={handleLogout} />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </PostAgenticLayout>
-            </AppProvider>
-          )}
-        </BrowserRouter>
-      </TooltipProvider>
+      <AuthProvider>
+        <Router>
+          <div className="min-h-screen bg-background text-foreground">
+            <AppRoutes />
+            <Toaster 
+              position="top-right"
+              toastOptions={{
+                duration: 4000,
+                style: {
+                  background: 'hsl(var(--card))',
+                  color: 'hsl(var(--card-foreground))',
+                  border: '1px solid hsl(var(--border))',
+                },
+              }}
+            />
+          </div>
+        </Router>
+      </AuthProvider>
     </QueryClientProvider>
   );
-};
+}
 
 export default App;
