@@ -1,7 +1,15 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { User, Session } from '@supabase/supabase-js';
-import { auth } from '@/lib/supabase';
+
+// Mock user type for demo
+interface User {
+  id: string;
+  email: string;
+}
+
+interface Session {
+  access_token: string;
+}
 
 interface AuthState {
   user: User | null;
@@ -38,41 +46,38 @@ export const useAuthStore = create<AuthState & AuthActions>()(
 
       signIn: async (email: string, password: string) => {
         set({ loading: true });
-        const { data, error } = await auth.signIn(email, password);
         
-        if (!error && data.session) {
-          set({ 
-            user: data.user, 
-            session: data.session,
-            loading: false 
-          });
-        } else {
-          set({ loading: false });
-        }
+        // Mock successful sign in for demo
+        const mockUser = { id: '1', email };
+        const mockSession = { access_token: 'demo-token' };
         
-        return { error };
+        set({ 
+          user: mockUser, 
+          session: mockSession,
+          loading: false 
+        });
+        
+        return { error: null };
       },
 
       signUp: async (email: string, password: string) => {
         set({ loading: true });
-        const { data, error } = await auth.signUp(email, password);
         
-        if (!error && data.session) {
-          set({ 
-            user: data.user, 
-            session: data.session,
-            loading: false 
-          });
-        } else {
-          set({ loading: false });
-        }
+        // Mock successful sign up for demo
+        const mockUser = { id: '1', email };
+        const mockSession = { access_token: 'demo-token' };
         
-        return { error };
+        set({ 
+          user: mockUser, 
+          session: mockSession,
+          loading: false 
+        });
+        
+        return { error: null };
       },
 
       signOut: async () => {
         set({ loading: true });
-        await auth.signOut();
         set({ 
           user: null, 
           session: null, 
@@ -82,24 +87,13 @@ export const useAuthStore = create<AuthState & AuthActions>()(
 
       initialize: async () => {
         set({ loading: true });
-        const { session } = await auth.getSession();
-        
-        if (session) {
-          const { user } = await auth.getUser();
-          set({ 
-            user, 
-            session, 
-            loading: false, 
-            initialized: true 
-          });
-        } else {
-          set({ 
-            user: null, 
-            session: null, 
-            loading: false, 
-            initialized: true 
-          });
-        }
+        // For demo, don't auto-login
+        set({ 
+          user: null, 
+          session: null, 
+          loading: false, 
+          initialized: true 
+        });
       }
     }),
     {

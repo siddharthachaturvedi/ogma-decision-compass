@@ -2,7 +2,50 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/stores/authStore';
 
-// Generic hook for Supabase queries
+// Mock data for demo
+const mockContexts = [
+  {
+    id: '1',
+    user_id: '1',
+    type: 'meeting' as const,
+    title: 'Q4 Planning Meeting',
+    content: 'Discussed quarterly goals and budget allocation',
+    priority: 'high' as const,
+    status: 'active' as const,
+    metadata: {},
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  },
+  {
+    id: '2',
+    user_id: '1',
+    type: 'document' as const,
+    title: 'Market Analysis Report',
+    content: 'Comprehensive analysis of market trends',
+    priority: 'medium' as const,
+    status: 'completed' as const,
+    metadata: {},
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  }
+];
+
+const mockInsights = [
+  {
+    id: '1',
+    user_id: '1',
+    type: 'suggestion' as const,
+    title: 'Meeting Follow-up Needed',
+    description: 'Consider scheduling a follow-up meeting for Q4 planning',
+    confidence: 0.85,
+    actionable: true,
+    metadata: {},
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  }
+];
+
+// Generic hook for Supabase queries (demo version)
 export function useSupabaseQuery<T>(
   key: string[],
   queryFn: () => Promise<{ data: T | null; error: any }>,
@@ -17,17 +60,22 @@ export function useSupabaseQuery<T>(
   return useQuery({
     queryKey: key,
     queryFn: async () => {
-      const { data, error } = await queryFn();
-      if (error) throw error;
-      return data;
+      // Return mock data for demo
+      if (key.includes('contexts')) {
+        return mockContexts as any;
+      }
+      if (key.includes('insights')) {
+        return mockInsights as any;
+      }
+      return [];
     },
     enabled: !!user && (options?.enabled ?? true),
-    staleTime: options?.staleTime ?? 5 * 60 * 1000, // 5 minutes
+    staleTime: options?.staleTime ?? 5 * 60 * 1000,
     refetchInterval: options?.refetchInterval,
   });
 }
 
-// Generic hook for Supabase mutations
+// Generic hook for Supabase mutations (demo version)
 export function useSupabaseMutation<TData, TVariables>(
   mutationFn: (variables: TVariables) => Promise<{ data: TData | null; error: any }>,
   options?: {
@@ -40,9 +88,8 @@ export function useSupabaseMutation<TData, TVariables>(
   
   return useMutation({
     mutationFn: async (variables: TVariables) => {
-      const { data, error } = await mutationFn(variables);
-      if (error) throw error;
-      return data;
+      // Mock successful mutation
+      return { id: Date.now().toString(), ...variables } as any;
     },
     onSuccess: (data) => {
       options?.onSuccess?.(data);
@@ -60,11 +107,7 @@ export function useContexts() {
   
   return useSupabaseQuery(
     ['contexts', user?.id],
-    () => supabase
-      .from('contexts')
-      .select('*')
-      .eq('user_id', user!.id)
-      .order('created_at', { ascending: false }),
+    () => Promise.resolve({ data: mockContexts, error: null }),
     { enabled: !!user }
   );
 }
@@ -74,11 +117,7 @@ export function useInsights() {
   
   return useSupabaseQuery(
     ['insights', user?.id],
-    () => supabase
-      .from('insights')
-      .select('*')
-      .eq('user_id', user!.id)
-      .order('created_at', { ascending: false }),
+    () => Promise.resolve({ data: mockInsights, error: null }),
     { enabled: !!user }
   );
 }
@@ -87,11 +126,10 @@ export function useCreateContext() {
   const user = useAuthStore(state => state.user);
   
   return useSupabaseMutation(
-    (variables: any) => supabase
-      .from('contexts')
-      .insert({ ...variables, user_id: user!.id })
-      .select()
-      .single(),
+    (variables: any) => Promise.resolve({ 
+      data: { id: Date.now().toString(), user_id: user!.id, ...variables }, 
+      error: null 
+    }),
     {
       invalidateQueries: [['contexts', user?.id]]
     }
@@ -102,13 +140,10 @@ export function useUpdateContext() {
   const user = useAuthStore(state => state.user);
   
   return useSupabaseMutation(
-    ({ id, ...updates }: any) => supabase
-      .from('contexts')
-      .update(updates)
-      .eq('id', id)
-      .eq('user_id', user!.id)
-      .select()
-      .single(),
+    ({ id, ...updates }: any) => Promise.resolve({ 
+      data: { id, user_id: user!.id, ...updates }, 
+      error: null 
+    }),
     {
       invalidateQueries: [['contexts', user?.id]]
     }

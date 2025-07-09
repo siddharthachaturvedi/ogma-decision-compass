@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/stores/authStore';
 
 interface AuthProviderProps {
@@ -7,34 +6,12 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const { setUser, setSession, initialize, initialized } = useAuthStore();
+  const { initialize, initialized } = useAuthStore();
 
   useEffect(() => {
-    // Initialize auth state
+    // Initialize auth state for demo
     initialize();
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email);
-        
-        setSession(session);
-        setUser(session?.user ?? null);
-
-        if (event === 'SIGNED_IN') {
-          // Handle sign in
-          console.log('User signed in');
-        } else if (event === 'SIGNED_OUT') {
-          // Handle sign out
-          console.log('User signed out');
-        }
-      }
-    );
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [setUser, setSession, initialize]);
+  }, [initialize]);
 
   if (!initialized) {
     return (

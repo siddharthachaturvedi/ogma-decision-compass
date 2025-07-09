@@ -1,59 +1,73 @@
-import { createClient } from '@supabase/supabase-js';
-import type { Database } from '@/types/database';
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
-}
-
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+// Mock Supabase client for demo purposes
+export const supabase = {
   auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true
+    signUp: async (credentials: any) => ({
+      data: { user: { id: '1', email: credentials.email }, session: { access_token: 'demo' } },
+      error: null
+    }),
+    signInWithPassword: async (credentials: any) => ({
+      data: { user: { id: '1', email: credentials.email }, session: { access_token: 'demo' } },
+      error: null
+    }),
+    signOut: async () => ({ error: null }),
+    getSession: async () => ({ data: { session: null }, error: null }),
+    getUser: async () => ({ data: { user: null }, error: null }),
+    onAuthStateChange: (callback: any) => ({
+      data: { subscription: { unsubscribe: () => {} } }
+    })
   },
-  realtime: {
-    params: {
-      eventsPerSecond: 10
-    }
-  }
-});
+  from: (table: string) => ({
+    select: (columns: string) => ({
+      eq: (column: string, value: any) => ({
+        order: (column: string, options: any) => Promise.resolve({ data: [], error: null })
+      })
+    }),
+    insert: (data: any) => ({
+      select: () => ({
+        single: () => Promise.resolve({ data: { id: Date.now().toString(), ...data }, error: null })
+      })
+    }),
+    update: (data: any) => ({
+      eq: (column: string, value: any) => ({
+        select: () => ({
+          single: () => Promise.resolve({ data: { id: value, ...data }, error: null })
+        })
+      })
+    })
+  })
+};
 
-// Auth helpers
+// Auth helpers for demo
 export const auth = {
   signUp: async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`
-      }
-    });
-    return { data, error };
+    return {
+      data: { 
+        user: { id: '1', email }, 
+        session: { access_token: 'demo-token' } 
+      },
+      error: null
+    };
   },
 
   signIn: async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
-    return { data, error };
+    return {
+      data: { 
+        user: { id: '1', email }, 
+        session: { access_token: 'demo-token' } 
+      },
+      error: null
+    };
   },
 
   signOut: async () => {
-    const { error } = await supabase.auth.signOut();
-    return { error };
+    return { error: null };
   },
 
   getSession: async () => {
-    const { data: { session }, error } = await supabase.auth.getSession();
-    return { session, error };
+    return { session: null, error: null };
   },
 
   getUser: async () => {
-    const { data: { user }, error } = await supabase.auth.getUser();
-    return { user, error };
+    return { user: null, error: null };
   }
 };
