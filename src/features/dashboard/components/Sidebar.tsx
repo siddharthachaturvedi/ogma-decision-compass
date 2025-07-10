@@ -12,21 +12,21 @@ import {
   Users, 
   Clock,
   Menu,
-  LogOut,
   Home,
-  ArrowLeft
+  ArrowLeft,
+  Sparkles
 } from 'lucide-react';
 import { toast } from 'sonner';
 
 const menuItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: Home },
-  { id: 'chat', label: 'AI Assistant', icon: MessageCircle },
-  { id: 'inbox', label: 'Smart Inbox', icon: Mail },
-  { id: 'digest', label: 'Doc Digest', icon: FileText },
-  { id: 'tone', label: 'ToneAware', icon: PenTool },
-  { id: 'social', label: 'Social Personalizer', icon: Share2 },
-  { id: 'meeting', label: 'Meeting Intelligence', icon: Users },
-  { id: 'memory', label: 'Memory Keeper', icon: Clock },
+  { id: 'dashboard', label: 'Dashboard', icon: Home, color: 'text-primary-600' },
+  { id: 'chat', label: 'AI Assistant', icon: MessageCircle, color: 'text-primary-600' },
+  { id: 'inbox', label: 'Smart Inbox', icon: Mail, color: 'text-blue-600' },
+  { id: 'digest', label: 'Doc Digest', icon: FileText, color: 'text-green-600' },
+  { id: 'tone', label: 'ToneAware', icon: PenTool, color: 'text-purple-600' },
+  { id: 'social', label: 'Social Personalizer', icon: Share2, color: 'text-pink-600' },
+  { id: 'meeting', label: 'Meeting Intelligence', icon: Users, color: 'text-indigo-600' },
+  { id: 'memory', label: 'Memory Keeper', icon: Clock, color: 'text-orange-600' },
 ];
 
 export function Sidebar() {
@@ -39,19 +39,22 @@ export function Sidebar() {
   };
 
   return (
-    <aside className={`fixed left-0 top-0 h-screen bg-card border-r border-border transition-all duration-300 z-50 ${
+    <aside className={`fixed left-0 top-0 h-screen bg-card/95 backdrop-blur-xl border-r border-border/50 transition-all duration-300 z-50 ${
       sidebarCollapsed ? 'w-16' : 'w-64'
     }`}>
       <div className="flex flex-col h-full">
         {/* Header */}
-        <div className="p-4 border-b border-border">
+        <div className="p-4 border-b border-border/30">
           <div className="flex items-center justify-between">
             <div className={`flex items-center space-x-3 ${sidebarCollapsed ? 'justify-center' : ''}`}>
-              <Brain className="h-6 w-6 text-primary animate-pulse" />
+              <div className="relative">
+                <Brain className="h-6 w-6 text-primary-600 animate-intelligence-pulse" />
+                <div className="absolute -top-1 -right-1 w-2 h-2 bg-success rounded-full animate-pulse" />
+              </div>
               {!sidebarCollapsed && (
                 <div>
-                  <h2 className="font-semibold text-foreground">Project Ogma</h2>
-                  <p className="text-xs text-muted-foreground">Intelligence Platform</p>
+                  <h2 className="font-semibold text-foreground tracking-tight">Project Ogma</h2>
+                  <p className="text-xs text-muted-foreground font-mono">Intelligence Platform</p>
                 </div>
               )}
             </div>
@@ -59,7 +62,7 @@ export function Sidebar() {
               variant="ghost"
               size="icon"
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="h-8 w-8"
+              className="h-8 w-8 hover:bg-muted/50 transition-smooth"
             >
               <Menu className="h-4 w-4" />
             </Button>
@@ -67,34 +70,49 @@ export function Sidebar() {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex-1 p-4 space-y-1">
           {menuItems.map((item) => (
             <Button
               key={item.id}
               variant={activeView === item.id ? "secondary" : "ghost"}
-              className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-10`}
+              className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-11 transition-smooth ${
+                activeView === item.id 
+                  ? 'bg-primary-50 text-primary-700 shadow-soft border border-primary-100' 
+                  : 'hover:bg-muted/50'
+              }`}
               onClick={() => setActiveView(item.id)}
             >
-              <item.icon className="h-4 w-4" />
-              {!sidebarCollapsed && <span className="ml-3">{item.label}</span>}
+              <item.icon className={`h-4 w-4 ${activeView === item.id ? 'text-primary-600' : item.color}`} />
+              {!sidebarCollapsed && (
+                <span className="ml-3 font-medium">{item.label}</span>
+              )}
             </Button>
           ))}
         </nav>
 
         {/* User section */}
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-border/30 space-y-3">
           {!sidebarCollapsed && (
-            <div className="mb-3 p-2 rounded-lg bg-muted/50">
-              <p className="text-sm font-medium text-foreground truncate">
-                demo@projectogma.ai
-              </p>
-              <p className="text-xs text-muted-foreground">Demo User</p>
+            <div className="p-3 rounded-xl bg-muted/30 border border-border/30">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
+                  <Sparkles className="h-4 w-4 text-primary-600" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">
+                    Demo User
+                  </p>
+                  <p className="text-xs text-muted-foreground truncate">
+                    demo@projectogma.ai
+                  </p>
+                </div>
+              </div>
             </div>
           )}
           <Button
             variant="outline"
             onClick={handleBackToLanding}
-            className={`w-full ${sidebarCollapsed ? 'px-0' : ''}`}
+            className={`w-full border-border/50 hover:border-primary-200 hover:bg-primary-50/50 transition-smooth ${sidebarCollapsed ? 'px-0' : ''}`}
           >
             <ArrowLeft className="h-4 w-4" />
             {!sidebarCollapsed && <span className="ml-2">Back to Landing</span>}
