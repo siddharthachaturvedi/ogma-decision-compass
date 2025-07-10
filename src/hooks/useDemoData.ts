@@ -451,8 +451,8 @@ export function useUpdateContext() {
 // Hook for tone analysis
 export function useToneAnalysis() {
   return useMutation({
-    mutationFn: async (text: string) => {
-      await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+    mutationFn: async (text: string): Promise<{ analysis: Record<string, number>; suggestions: Array<{ type: string; message: string; example: string }> }> => {
+      await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 1500));
       
       // Simulate tone analysis
       const analysis = {
@@ -465,27 +465,35 @@ export function useToneAnalysis() {
       
       const suggestions = [];
       
-      if (analysis.professional < 70) {
+      if (analysis.professional < 75) {
         suggestions.push({
           type: 'improvement',
-          message: 'Consider using more formal language',
-          example: 'Replace "Hey" with "Hello" or "Dear"'
+          message: 'Consider using more formal language to enhance professionalism',
+          example: 'Replace "Hey there" with "Dear [Name]" or "Hello [Name]"'
         });
       }
       
-      if (analysis.friendly > 80) {
+      if (analysis.friendly > 85) {
         suggestions.push({
           type: 'balance',
-          message: 'Great friendly tone! Consider adding professional elements',
-          example: 'Add a clear call-to-action'
+          message: 'Excellent friendly tone! Consider balancing with professional elements',
+          example: 'Add a clear call-to-action or formal closing'
         });
       }
       
-      if (analysis.urgent > 60) {
+      if (analysis.urgent > 65) {
         suggestions.push({
           type: 'caution',
-          message: 'High urgency detected - ensure this is intentional',
-          example: 'Consider softening with "when convenient"'
+          message: 'High urgency detected - ensure this tone is intentional',
+          example: 'Consider softening with phrases like "when convenient" or "at your earliest opportunity"'
+        });
+      }
+      
+      if (analysis.empathetic < 40 && text.toLowerCase().includes('problem')) {
+        suggestions.push({
+          type: 'improvement',
+          message: 'Consider adding more empathetic language when discussing issues',
+          example: 'Use phrases like "I understand this may be challenging" or "I appreciate your patience"'
         });
       }
       
@@ -497,26 +505,30 @@ export function useToneAnalysis() {
 // Hook for document processing
 export function useDocumentProcess() {
   return useMutation({
-    mutationFn: async (file: File) => {
+    mutationFn: async (file: File): Promise<{ fileName: string; fileSize: number; summary: string; insights: string[]; confidence: number; processingTime: number }> => {
       await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 3000));
       
       // Simulate document processing
-      const insights = [
-        'Key themes identified: productivity, efficiency, growth',
-        'Action items extracted: 5 high-priority tasks',
-        'Sentiment analysis: 78% positive, 15% neutral, 7% concerns',
-        'Related contexts found: Q4 Planning, Client Feedback'
+      const documentInsights = [
+        'Key themes identified: strategic planning, operational efficiency, market expansion',
+        'Action items extracted: 8 high-priority tasks requiring immediate attention',
+        'Sentiment analysis: 82% positive outlook, 12% neutral, 6% areas of concern',
+        'Related contexts found: Q4 Planning Meeting, Client Feedback Summary, Market Analysis',
+        'Financial projections indicate 15% growth potential in identified market segments',
+        'Risk assessment reveals 3 critical areas requiring mitigation strategies',
+        'Stakeholder alignment score: 94% consensus on proposed initiatives',
+        'Timeline analysis suggests 6-month implementation window for optimal results'
       ];
       
-      const summary = `Document "${file.name}" has been processed successfully. The analysis reveals strong focus on operational improvements and strategic growth initiatives. Key stakeholders mentioned include team leads and client representatives.`;
+      const summary = `Document "${file.name}" has been comprehensively analyzed using advanced AI processing. The analysis reveals a strong strategic focus on operational improvements and market expansion initiatives. Key stakeholders mentioned include executive leadership, department heads, and external partners. The document contains actionable insights for Q1-Q2 implementation with clear success metrics and risk mitigation strategies.`;
       
       return {
         fileName: file.name,
         fileSize: file.size,
         summary,
-        insights,
-        confidence: Math.random() * 0.2 + 0.8,
-        processingTime: Math.floor(Math.random() * 3000 + 1000)
+        insights: documentInsights,
+        confidence: Math.random() * 0.15 + 0.85, // 85-100% confidence
+        processingTime: Math.floor(Math.random() * 2500 + 1500) // 1.5-4 seconds
       };
     },
   });
