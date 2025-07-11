@@ -18,15 +18,12 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
+// Simplified navigation following MECE principles
 const menuItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: Home, color: 'text-primary-600' },
-  { id: 'chat', label: 'AI Assistant', icon: MessageCircle, color: 'text-primary-600' },
-  { id: 'inbox', label: 'Smart Inbox', icon: Mail, color: 'text-blue-600' },
-  { id: 'digest', label: 'Doc Digest', icon: FileText, color: 'text-green-600' },
-  { id: 'tone', label: 'ToneAware', icon: PenTool, color: 'text-purple-600' },
-  { id: 'social', label: 'Social Personalizer', icon: Share2, color: 'text-pink-600' },
-  { id: 'meeting', label: 'Meeting Intelligence', icon: Users, color: 'text-indigo-600' },
-  { id: 'memory', label: 'Memory Keeper', icon: Clock, color: 'text-orange-600' },
+  { id: 'overview', label: 'Overview', icon: Home, color: 'text-primary-600', description: 'Dashboard and insights' },
+  { id: 'assistant', label: 'AI Assistant', icon: MessageCircle, color: 'text-blue-600', description: 'Chat and get help' },
+  { id: 'documents', label: 'Documents', icon: FileText, color: 'text-green-600', description: 'Process and analyze files' },
+  { id: 'inbox', label: 'Communications', icon: Mail, color: 'text-purple-600', description: 'Smart email management' },
 ];
 
 export function Sidebar() {
@@ -72,21 +69,25 @@ export function Sidebar() {
         {/* Navigation */}
         <nav className="flex-1 p-4 space-y-1">
           {menuItems.map((item) => (
-            <Button
-              key={item.id}
-              variant={activeView === item.id ? "secondary" : "ghost"}
-              className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-11 transition-smooth ${
-                activeView === item.id 
-                  ? 'bg-primary-50 text-primary-700 shadow-soft border border-primary-100' 
-                  : 'hover:bg-muted/50'
-              }`}
-              onClick={() => setActiveView(item.id)}
-            >
-              <item.icon className={`h-4 w-4 ${activeView === item.id ? 'text-primary-600' : item.color}`} />
-              {!sidebarCollapsed && (
-                <span className="ml-3 font-medium">{item.label}</span>
-              )}
-            </Button>
+            <div key={item.id}>
+              <Button
+                variant={activeView === item.id ? "secondary" : "ghost"}
+                className={`w-full ${sidebarCollapsed ? 'justify-center px-0' : 'justify-start'} h-12 transition-smooth ${
+                  activeView === item.id 
+                    ? 'bg-primary-50 text-primary-700 shadow-soft border border-primary-100' 
+                    : 'hover:bg-muted/50'
+                }`}
+                onClick={() => setActiveView(item.id)}
+              >
+                <item.icon className={`h-5 w-5 ${activeView === item.id ? 'text-primary-600' : item.color}`} />
+                {!sidebarCollapsed && (
+                  <div className="ml-3 text-left flex-1">
+                    <div className="font-medium">{item.label}</div>
+                    <div className="text-xs text-muted-foreground">{item.description}</div>
+                  </div>
+                )}
+              </Button>
+            </div>
           ))}
         </nav>
 

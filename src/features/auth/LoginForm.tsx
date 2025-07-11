@@ -53,12 +53,12 @@ export function LoginForm({ onToggleMode, isSignUp }: LoginFormProps) {
     <Card className="w-full glass shadow-strong border-border/50 backdrop-blur-xl">
       <CardHeader className="text-center space-y-3 pb-6">
         <CardTitle className="text-2xl font-semibold tracking-tight">
-          {isSignUp ? 'Create Account' : 'Welcome Back'}
+          {isSignUp ? 'Join Project Ogma' : 'Welcome Back'}
         </CardTitle>
         <CardDescription className="text-muted-foreground">
           {isSignUp 
-            ? 'Start your journey with Project Ogma'
-            : 'Sign in to continue your intelligence journey'
+            ? 'Experience the future of AI assistance'
+            : 'Continue your intelligent workflow'
           }
         </CardDescription>
       </CardHeader>
@@ -134,10 +134,10 @@ export function LoginForm({ onToggleMode, isSignUp }: LoginFormProps) {
         <Button
           onClick={handleDemoAccess}
           variant="outline"
-          className="w-full h-12 border-border/50 hover:border-primary-200 hover:bg-primary-50/50 transition-smooth"
+          className="w-full h-12 border-primary-200 bg-primary-50/30 hover:bg-primary-50 text-primary-700 hover:text-primary-800 transition-smooth"
         >
           <Sparkles className="mr-2 h-4 w-4 text-primary-600" />
-          <span>Explore Demo</span>
+          <span>Try Demo</span>
         </Button>
         
         <div className="text-center pt-2">
@@ -155,8 +155,9 @@ export function LoginForm({ onToggleMode, isSignUp }: LoginFormProps) {
         
         {!isSignUp && (
           <div className="p-4 rounded-xl bg-muted/30 border border-border/30">
-            <p className="text-xs text-muted-foreground text-center leading-relaxed">
-              <strong className="text-foreground font-medium">Demo Access:</strong> Click "Explore Demo" to experience the full platform capabilities
+            <p className="text-xs text-center leading-relaxed">
+              <span className="text-primary-700 font-medium">Try the demo</span>
+              <span className="text-muted-foreground"> to experience AI that anticipates your needs</span>
             </p>
           </div>
         )}

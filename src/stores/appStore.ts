@@ -53,7 +53,7 @@ interface AppActions {
 export const useAppStore = create<AppState & AppActions>()(
   subscribeWithSelector((set, get) => ({
     // Initial State
-    activeView: 'dashboard',
+    activeView: 'onboarding',
     previousView: null,
     sidebarCollapsed: false,
     isThinking: false,

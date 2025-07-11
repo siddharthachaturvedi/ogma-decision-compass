@@ -55,51 +55,48 @@ export default function LandingPage() {
               <div className="space-y-6 lg:space-y-8">
                 <div className="inline-flex items-center space-x-2 bg-primary-50 text-primary-700 rounded-full px-4 py-2 text-sm font-medium border border-primary-100">
                   <Sparkles className="h-4 w-4" />
-                  <span>Next-Generation Intelligence Platform</span>
+                  <span>Post-Agentic AI Platform</span>
                 </div>
                 
                 <div className="space-y-4">
-                  <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-medium text-foreground leading-[0.95] tracking-tight">
-                    Intelligence that
-                    <span className="block gradient-text">anticipates</span>
-                    your needs
+                  <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-medium text-foreground leading-[0.95] tracking-tight">
+                    AI that works
+                    <span className="block gradient-text">before you ask</span>
                   </h1>
                   
-                  <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-2xl font-light">
-                    Experience the next evolution of AI—seamlessly woven into every interaction, 
-                    predicting needs before they arise, and transforming how you work.
+                  <p className="text-lg text-muted-foreground leading-relaxed max-w-xl font-light">
+                    Project Ogma anticipates your needs, connects your contexts, and amplifies your productivity—invisibly and intelligently.
                   </p>
                 </div>
               </div>
               
-              {/* Feature highlights - Responsive Grid */}
-              <div className="grid sm:grid-cols-2 gap-4 lg:gap-6">
+              {/* Core Value Props - Simplified */}
+              <div className="grid sm:grid-cols-2 gap-6">
                 {[
                   { 
-                    icon: Eye, 
-                    title: 'Anticipatory Intelligence', 
-                    description: 'Surfaces insights before you ask, learning from patterns in your workflow',
+                    icon: Brain, 
+                    title: 'Anticipates Your Needs', 
+                    description: 'AI that predicts what you need before you ask, learning from your patterns',
                   },
                   { 
                     icon: Network, 
-                    title: 'Contextual Awareness', 
-                    description: 'Connects all information streams across your digital ecosystem',
+                    title: 'Connects Everything', 
+                    description: 'Seamlessly links all your information, conversations, and tasks',
                   },
                   { 
-                    icon: Zap, 
-                    title: 'Ambient Processing', 
-                    description: 'Intelligence woven into every interaction, invisible yet powerful',
+                    icon: Sparkles, 
+                    title: 'Works Invisibly', 
+                    description: 'Powerful intelligence that enhances your workflow without getting in the way',
                   },
                   { 
                     icon: Shield, 
-                    title: 'Privacy-First Design', 
-                    description: 'Advanced AI processing with uncompromising data protection',
+                    title: 'Protects Your Privacy', 
+                    description: 'Advanced AI with enterprise-grade security and data protection',
                   }
-                ].map((feature, index) => (
+                ].map((feature) => (
                   <div 
                     key={feature.title} 
-                    className="group p-6 rounded-2xl glass hover:shadow-medium transition-smooth border border-border/50 hover:border-primary-200/50"
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                    className="group p-6 rounded-2xl bg-card/50 hover:bg-card hover:shadow-medium transition-smooth border border-border/50 hover:border-primary-200/50 backdrop-blur-sm"
                   >
                     <div className="flex items-start space-x-4">
                       <div className="p-3 rounded-xl bg-primary-50 text-primary-600 group-hover:bg-primary-100 transition-smooth">
@@ -118,15 +115,15 @@ export default function LandingPage() {
                 ))}
               </div>
 
-              {/* Social proof - Responsive Layout */}
-              <div className="flex flex-wrap items-center gap-8 lg:gap-12 pt-8">
+              {/* Social proof - Simplified */}
+              <div className="flex items-center justify-center gap-12 pt-8">
                 {[
-                  { value: '10K+', label: 'Active Users' },
+                  { value: '10K+', label: 'Users' },
                   { value: '99.9%', label: 'Uptime' },
-                  { value: '24/7', label: 'AI Support' }
+                  { value: '24/7', label: 'Available' }
                 ].map((stat) => (
                   <div key={stat.label} className="text-center">
-                    <div className="text-2xl lg:text-3xl font-bold text-foreground font-mono">
+                    <div className="text-2xl font-bold text-foreground font-mono">
                       {stat.value}
                     </div>
                     <div className="text-sm text-muted-foreground">
